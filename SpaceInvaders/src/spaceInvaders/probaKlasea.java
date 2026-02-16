@@ -1,6 +1,6 @@
 package spaceInvaders;
 
-// proba
+// proba1º
 public class probaKlasea {
 
 }
