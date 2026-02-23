@@ -1,12 +1,31 @@
 package spaceInvaders;
 
-public class Gelaxka {
-    int zabalera;
-    int altuera;
+import java.util.Observable;
+
+enum Edukia {
+    Hutsa, EspazioOntzia, Etsaia, Tiroa, Horma, Jokalaria
+}
+public class Gelaxka extends Observable {
+    private int zabalera;
+    private int altuera;
+    private Edukia edukia;
 
     public Gelaxka(int zabalera, int altuera) {
         this.zabalera = zabalera;
         this.altuera = altuera;
     }
-    
+    public int getZabalera() {
+        return this.zabalera;
+    }
+    public int getAltuera() {
+        return this.altuera;
+    }
+    public Edukia getEdukia() {
+        return this.edukia;
+    }
+    public void setEdukia(Edukia edukia) {
+        this.edukia = edukia;
+        setChanged();
+        notifyObservers();    
+    }
 }
