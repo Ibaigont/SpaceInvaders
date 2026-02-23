@@ -1,15 +1,9 @@
 package spaceInvaders;
 
-import java.util.Observable;
-
-public class Ontzia extends Observable {
+public class Ontzia {
     private int x;
     private int y;
-    private static int abiadura = 2;
-    private boolean ezkerra;
-    private boolean eskuma;
-    private boolean gora;
-    private boolean behera;
+    private static int abiadura = 1; 
     private int minX, maxX, minY, maxY;
 
     public Ontzia(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
@@ -21,60 +15,13 @@ public class Ontzia extends Observable {
         this.maxY = maxY;
     }
 
-    public void setEzkerra(boolean ezk) {
-        this.ezkerra = ezk;
+    public void mugitu(String norabidea) {
+        if (norabidea.equals("EZKERRA") && x > minX) x -= abiadura;
+        else if (norabidea.equals("ESKUINA") && x < maxX) x += abiadura;
+        else if (norabidea.equals("GORA") && y > minY) y -= abiadura;
+        else if (norabidea.equals("BEHERA") && y < maxY) y += abiadura;
     }
 
-    public void setEskuma(boolean esk) {
-        this.eskuma = esk;
-    }
-
-    public void setGora(boolean gora) {
-        this.gora = gora;
-    }
-
-    public void setBehera(boolean behera) {
-        this.behera = behera;
-    }
-
-    public void mugituEzkerra() {
-        x -= abiadura;
-        update();
-    }
-
-    public void mugituEskuma() {
-        x += abiadura;
-        update(); 
-    }
-
-    public void mugituGora() {
-        y -= abiadura;
-        update();
-    }
-
-    public void mugituBehera() {
-        y += abiadura;
-        update();
-    }
-
-    public void update() {
-        limitar();
-        setChanged();
-        notifyObservers();
-    }
-
-    private void limitar() {
-        if (x < minX) x = minX;
-        if (x > maxX) x = maxX;
-        if (y < minY) y = minY;
-        if (y > maxY) y = maxY;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
+    public int getX() { return x; }
+    public int getY() { return y; }
 }

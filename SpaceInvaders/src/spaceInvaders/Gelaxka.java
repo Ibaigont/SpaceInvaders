@@ -2,9 +2,7 @@ package spaceInvaders;
 
 import java.util.Observable;
 
-enum Edukia {
-    Hutsa, EspazioOntzia, Etsaia, Tiroa, Horma
-}
+
 public class Gelaxka extends Observable {
     private int zabalera;
     private int altuera;

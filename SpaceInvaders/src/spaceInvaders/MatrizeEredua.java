@@ -1,59 +1,81 @@
 package spaceInvaders;
+
 import java.util.Observable;
-import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MatrizeEredua extends Observable {
+	
 	private Gelaxka[][] gelaxka;
 	private static MatrizeEredua nireMatrizea = new MatrizeEredua();
-	private int altuera = 30; // Matrizearen balioa erdia da lehen Sprinta errazagoa egiteko
-	private int zabalera = 50; // Matrizearen balioa erdia da lehen Sprinta errazagoa egiteko
+	private int altuera = 30; 
+	private int zabalera = 50; 
 	private int etsaiKop = 0;
 	private int etsaiMin = 4;
 	private int etsaiMax = 8;
 	
+	private Ontzia ontzia; 
+	
 	private MatrizeEredua() {
-		this.gelaxka = new Gelaxka[altuera][zabalera];
+		this.gelaxka = new Gelaxka[zabalera][altuera];
 	}
+	
 	public static MatrizeEredua getMatrizea() { 
 		return nireMatrizea; 
 	}
-	public void MatrizeaSortu() {
-    for (int x = 0; x < zabalera; x++) {
-        for (int y = 0; y < altuera; y++) {
-            Gelaxka gelaxkaBerria = new Gelaxka(x, y);
+	
+	public void matrizeaSortu() {
+	    for (int x = 0; x < zabalera; x++) {
+	        for (int y = 0; y < altuera; y++) {
+	            Gelaxka gelaxkaBerria = new Gelaxka(x, y);
 
-            if (x == 0 || y == 0 || x == (zabalera - 1) || y == (altuera - 1)) {
-                gelaxkaBerria.setEdukia(Edukia.Horma);
-            } else if (x == 27 && y == 25) {
-                gelaxkaBerria.setEdukia(Edukia.EspazioOntzia);
-            } else {
-                gelaxkaBerria.setEdukia(Edukia.Hutsa);
-            }
+	            if (x == 0 || y == 0 || x == (zabalera - 1) || y == (altuera - 1)) {
+	                gelaxkaBerria.setEdukia(Edukia.Horma);
+	            } else {
+	                gelaxkaBerria.setEdukia(Edukia.Hutsa);
+	            }
+	            gelaxka[x][y] = gelaxkaBerria;
+	        }
+	    }
+	    
+	    ontzia = new Ontzia(25, 27, 1, zabalera - 2, 1, altuera - 2);
+	    gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
-            gelaxka[x][y] = gelaxkaBerria;
-        }
-    }
+		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
+		int jarritakoEtsaiKop = 0;
+		while (jarritakoEtsaiKop < etsaiKop) {
+			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
 
-	etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
-	int jarritakoEtsaiKop = 0;
-	while (jarritakoEtsaiKop < etsaiKop) {
-		int rx = (int) (Math.random() * (zabalera - 2)) + 1;
-
-		if (gelaxka[rx][2].getEdukia() == Edukia.Hutsa) {
-			gelaxka[rx][2].setEdukia(Edukia.Etsaia);
-			jarritakoEtsaiKop++;
-		}
-	}
-    
-}
-	public void  AldatuGelaxka (int x, int y, Edukia kolorea) {
-		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
-            Gelaxka zaharra = gelaxka[x][y];
-            gelaxka [x][y].setEdukia(kolorea);
+			if (gelaxka[rx][2].getEdukia() == Edukia.Hutsa) {
+				gelaxka[rx][2].setEdukia(Edukia.Etsaia);
+				jarritakoEtsaiKop++;
+			}
 		}
 		
+		bistaEguneratu();
 	}
 	
+	public void ontziaMugitu(String norabidea) {
+		if (ontzia == null) return;
+		
+		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.Hutsa);
+		
+		ontzia.mugitu(norabidea);		
+		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
+		
+		bistaEguneratu();
+	}
+	
+	public void AldatuGelaxka (int x, int y, Edukia kolorea) {
+		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
+            gelaxka [x][y].setEdukia(kolorea);
+		}
+	}
+	
+	public Gelaxka[][] getGelaxkak() { return gelaxka; }
+	public int getZabalera() { return zabalera; }
+	public int getAltuera() { return altuera; }
+	
+	public void bistaEguneratu() {
+		setChanged();
+		notifyObservers();
+	}
 }
