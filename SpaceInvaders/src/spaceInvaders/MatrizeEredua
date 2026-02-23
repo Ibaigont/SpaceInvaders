@@ -1,0 +1,38 @@
+package spaceInvaders;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class MatrizeEredua extends Observable {
+	private Gelaxka[][] gelaxka;
+	private static MatrizeEredua nireMatrizea = new MatrizeEredua();
+	private int altuera = 30; // Matrizearen balioa erdia da lehen Sprinta errazagoa egiteko
+	private int zabalera = 50; // Matrizearen balioa erdia da lehen Sprinta errazagoa egiteko
+	
+	private MatrizeEredua() {
+		this.gelaxka = new Gelaxka[altuera][zabalera];
+	}
+	public static MatrizeEredua getMatrizea() { 
+		return nireMatrizea; 
+	}
+	public void MatrizeaSortu () {
+		for (int x = 0; x < zabalera; x ++) {
+			for (int y = 0; y < altuera; y ++) {
+				Gelaxka gelaxkaBerria = new Gelaxka(x, y);
+				if(x==0 || y==0 || x==(zabalera-1) || y== (altuera-1)){
+					gelaxkaBerria.setEdukia(Edukia.Horma);
+				}
+				gelaxka[x][y]= gelaxkaBerria;
+			}	
+		}
+	}
+	public void  AldatuGelaxka (int x, int y, Gelaxka kolorea) {
+		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
+            Gelaxka zaharra = gelaxka[y][x];
+            gelaxka [y][x] = kolorea;
+		}
+		
+	}
+	
+}
