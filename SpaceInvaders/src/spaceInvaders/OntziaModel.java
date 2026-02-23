@@ -1,3 +1,4 @@
+package spaceInvaders;
 import java.util.Observable;
 public class Ontzia extends Observable {
     private int x;
