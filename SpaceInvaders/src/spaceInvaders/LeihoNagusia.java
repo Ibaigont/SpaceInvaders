@@ -62,9 +62,11 @@ public class LeihoNagusia extends JFrame implements Observer {
     }
 
     
+ 
     private class Kontroladorea extends KeyAdapter implements ActionListener {
         
         private Timer jokoBegizta; 
+        private int tickKontagailua = 0; 
 
         public Kontroladorea() {
             jokoBegizta = new Timer(50, this); 
@@ -81,6 +83,13 @@ public class LeihoNagusia extends JFrame implements Observer {
             } else if (e.getSource() == jokoBegizta) {
                 
                 eredua.jokoZikloaEguneratu();
+                
+                // 50x4=200ms bakoitzean etsaiak mugitzeko
+                tickKontagailua++;
+                if (tickKontagailua >= 4) {
+                    eredua.etsaiakMugitu();
+                    tickKontagailua = 0; 
+                }
             }
         }
 
