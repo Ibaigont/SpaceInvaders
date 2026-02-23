@@ -29,8 +29,8 @@ public class MatrizeEredua extends Observable {
 	}
 	public void  AldatuGelaxka (int x, int y, Gelaxka kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
-            Gelaxka zaharra = gelaxka[y][x];
-            gelaxka [y][x] = kolorea;
+            Gelaxka zaharra = gelaxka[x][y];
+            gelaxka [x][y] = kolorea;
 		}
 		
 	}
