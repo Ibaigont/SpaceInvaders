@@ -57,11 +57,52 @@ public class MatrizeEredua extends Observable {
 		if (ontzia == null) return;
 		
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.Hutsa);
-		
-		ontzia.mugitu(norabidea);		
+		ontzia.mugitu(norabidea); 
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 		
 		bistaEguneratu();
+	}
+
+	
+	public void tirokatu() {
+		if (ontzia == null) return;
+		int tx = ontzia.getX();
+		int ty = ontzia.getY() - 1; 
+	
+		
+		if (ty > 0 && gelaxka[tx][ty].getEdukia() == Edukia.Hutsa) {
+			gelaxka[tx][ty].setEdukia(Edukia.Tiroa);
+			bistaEguneratu();
+		}
+	}
+
+	
+	public void jokoZikloaEguneratu() {
+		
+		for (int y = 1; y < altuera - 1; y++) {
+			for (int x = 1; x < zabalera - 1; x++) {
+				
+				if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
+					gelaxka[x][y].setEdukia(Edukia.Hutsa); 
+					int nuevaY = y - 1;
+					
+					if (nuevaY > 0) {
+						Edukia aurreanDagoena = gelaxka[x][nuevaY].getEdukia();
+						
+						if (aurreanDagoena == Edukia.Etsaia) {
+							
+							gelaxka[x][nuevaY].setEdukia(Edukia.Hutsa);
+						} else if (aurreanDagoena == Edukia.Hutsa) {
+							
+							gelaxka[x][nuevaY].setEdukia(Edukia.Tiroa);
+						}
+					
+					}
+				}
+				
+			}
+		}
+		bistaEguneratu(); 
 	}
 	
 	public void AldatuGelaxka (int x, int y, Edukia kolorea) {

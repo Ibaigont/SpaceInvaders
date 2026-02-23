@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-
 @SuppressWarnings("deprecation")
 public class LeihoNagusia extends JFrame implements Observer {
 
@@ -62,13 +61,26 @@ public class LeihoNagusia extends JFrame implements Observer {
         return kontroladorea;
     }
 
+    
     private class Kontroladorea extends KeyAdapter implements ActionListener {
+        
+        private Timer jokoBegizta; 
+
+        public Kontroladorea() {
+            jokoBegizta = new Timer(50, this); 
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == btnJolastu) {
                 eredua.matrizeaSortu();
                 kartaDiseinua.show(kartaPanela, "JOKOA");
                 LeihoNagusia.this.requestFocus(); 
+                jokoBegizta.start(); 
+                
+            } else if (e.getSource() == jokoBegizta) {
+                
+                eredua.jokoZikloaEguneratu();
             }
         }
 
@@ -79,6 +91,7 @@ public class LeihoNagusia extends JFrame implements Observer {
             else if (tekla == KeyEvent.VK_RIGHT) eredua.ontziaMugitu("ESKUINA");
             else if (tekla == KeyEvent.VK_UP) eredua.ontziaMugitu("GORA");
             else if (tekla == KeyEvent.VK_DOWN) eredua.ontziaMugitu("BEHERA");
+            else if (tekla == KeyEvent.VK_SPACE) eredua.tirokatu();
         }
     }
 }
