@@ -24,7 +24,7 @@ public class MatrizeEredua extends Observable {
 					gelaxkaBerria.setEdukia(Edukia.Horma);
 				} else if (x == 22 && y == 25) {
 					gelaxkaBerria.setEdukia(Edukia.EspazioOntzia);
-				} else if (x == 7 && y == 2) || (x == 12 && y == 2) || (x == 32 && y == 2) || (x == 40 && y == 2) || (x == 45 && y == 2)) {
+				} else if((x == 7 && y == 2) || (x == 12 && y == 2) || (x == 32 && y == 2) || (x == 40 && y == 2) || (x == 45 && y == 2)) {
 					gelaxkaBerria.setEdukia(Edukia.Etsaia);
 				} else {
 					gelaxkaBerria.setEdukia(Edukia.Hutsa);
@@ -34,10 +34,10 @@ public class MatrizeEredua extends Observable {
 			}	
 		}
 	}
-	public void  AldatuGelaxka (int x, int y, Gelaxka kolorea) {
+	public void  AldatuGelaxka (int x, int y, Edukia kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
             Gelaxka zaharra = gelaxka[x][y];
-            gelaxka [x][y] = kolorea;
+            gelaxka [x][y].setEdukia(kolorea);
 		}
 		
 	}
