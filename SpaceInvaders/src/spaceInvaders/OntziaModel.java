@@ -1,6 +1,6 @@
 package spaceInvaders;
 import java.util.Observable;
-public class Ontzia extends Observable {
+public class OntziaModel extends Observable {
     private int x;
     private int y;
     private static int abiadura = 2;
@@ -10,7 +10,7 @@ public class Ontzia extends Observable {
     private boolean behera;
     private int minX, maxX, minY, maxY;
     
-    public Ontzia(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
+    public OntziaModel(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
         this.x = hasieraX;
         this.y = hasieraY;
         this.minX = minX;
