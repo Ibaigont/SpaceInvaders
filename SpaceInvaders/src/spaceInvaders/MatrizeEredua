@@ -30,6 +30,7 @@ public class MatrizeEredua extends Observable {
 					gelaxkaBerria.setEdukia(Edukia.Hutsa);
 				}
 				gelaxka[x][y]= gelaxkaBerria;
+				gelaxka[x][y].addObserver(this);
 			}	
 		}
 	}
