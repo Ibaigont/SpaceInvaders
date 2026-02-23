@@ -1,6 +1,8 @@
 package spaceInvaders;
+
 import java.util.Observable;
-public class OntziaModel extends Observable {
+
+public class Ontzia extends Observable {
     private int x;
     private int y;
     private static int abiadura = 2;
@@ -9,8 +11,8 @@ public class OntziaModel extends Observable {
     private boolean gora;
     private boolean behera;
     private int minX, maxX, minY, maxY;
-    
-    public OntziaModel(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
+
+    public Ontzia(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
         this.x = hasieraX;
         this.y = hasieraY;
         this.minX = minX;
@@ -26,28 +28,35 @@ public class OntziaModel extends Observable {
     public void setEskuma(boolean esk) {
         this.eskuma = esk;
     }
+
     public void setGora(boolean gora) {
         this.gora = gora;
     }
+
     public void setBehera(boolean behera) {
         this.behera = behera;
     }
+
     public void mugituEzkerra() {
         x -= abiadura;
         update();
     }
+
     public void mugituEskuma() {
         x += abiadura;
         update(); 
     }
-   public void mugituGora() {
-	   y-= abiadura;
-	   update();
-   }
+
+    public void mugituGora() {
+        y -= abiadura;
+        update();
+    }
+
     public void mugituBehera() {
-            y += abiadura;
-            update();
-	}
+        y += abiadura;
+        update();
+    }
+
     public void update() {
         limitar();
         setChanged();
@@ -60,7 +69,6 @@ public class OntziaModel extends Observable {
         if (y < minY) y = minY;
         if (y > maxY) y = maxY;
     }
-    
 
     public int getX() {
         return x;
@@ -69,3 +77,4 @@ public class OntziaModel extends Observable {
     public int getY() {
         return y;
     }
+}
