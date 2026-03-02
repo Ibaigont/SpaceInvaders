@@ -10,11 +10,6 @@ public class Etsaiak extends Ontzia {
     @Override
     public void mugitu(String norabidea) {
          
-        }
-
-        setX(x);
-        setY(y);
-        update();
     }
 
     // Additional enemy-specific behavior can be added here
