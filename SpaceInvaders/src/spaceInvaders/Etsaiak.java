@@ -9,18 +9,7 @@ public class Etsaiak extends Ontzia {
 
     @Override
     public void mugitu(String norabidea) {
-        int x = getX();
-        int y = getY();
-        int abiadura = getAbiadura();
-
-        if (norabidea.equals("EZKERRA") && x > getMinX()) {
-            x -= abiadura;
-        } else if (norabidea.equals("ESKUINA") && x < getMaxX()) {
-            x += abiadura;
-        } else if (norabidea.equals("GORA") && y > getMinY()) {
-            y -= abiadura;
-        } else if (norabidea.equals("BEHERA") && y < getMaxY()) {
-            y += abiadura;
+         
         }
 
         setX(x);
