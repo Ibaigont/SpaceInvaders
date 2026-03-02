@@ -3,19 +3,20 @@ package spaceInvaders;
 import java.util.Observable;
 import java.util.ArrayList; 
 import java.util.List;      
-import java.awt.Point;      
+import java.awt.Point;
+import java.awt.event.ActionEvent;      
 
 public class MatrizeEredua extends Observable {
 	
 	private Gelaxka[][] gelaxka;
 	private static MatrizeEredua nireMatrizea = new MatrizeEredua();
-	private int altuera = 30; 
-	private int zabalera = 50; 
+	private int altuera = 60; 
+	private int zabalera = 100; 
 	private int etsaiKop = 0;
 	private int etsaiMin = 4;
 	private int etsaiMax = 8;
 	
-	private Ontzia ontzia; 
+	private JokalariOntzi ontzia; 
 	private int etsaienNorabidea = 1; //  1 eskuma, -1 ezkerrera
 	
 	private MatrizeEredua() {
@@ -40,7 +41,7 @@ public class MatrizeEredua extends Observable {
 	        }
 	    }
 	    
-	    ontzia = new Ontzia(25, 27, 1, zabalera - 2, 1, altuera - 2);
+	    ontzia = new JokalariOntzi(25, 27, 1, zabalera - 2, 1, altuera - 2);
 	    gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
 		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
@@ -150,7 +151,7 @@ public class MatrizeEredua extends Observable {
 		
 		bistaEguneratu();
 	}
-	
+
 	public void AldatuGelaxka (int x, int y, Edukia kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
             gelaxka [x][y].setEdukia(kolorea);
