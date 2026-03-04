@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.ArrayList; 
 import java.util.List;      
 import java.awt.Point;
-import java.awt.event.ActionEvent;      
 
 public class MatrizeEredua extends Observable {
 	
@@ -17,7 +16,8 @@ public class MatrizeEredua extends Observable {
 	private int etsaiMax = 8;
 	
 	private JokalariOntzi ontzia; 
-	private int etsaienNorabidea = 1; //  1 eskuma, -1 ezkerrera
+	private int etsaienNorabidea = 1;
+	private boolean jokoaAmaitu = false;
 	
 	private MatrizeEredua() {
 		this.gelaxka = new Gelaxka[zabalera][altuera];
@@ -31,7 +31,6 @@ public class MatrizeEredua extends Observable {
 	    for (int x = 0; x < zabalera; x++) {
 	        for (int y = 0; y < altuera; y++) {
 	            Gelaxka gelaxkaBerria = new Gelaxka(x, y);
-
 	            if (x == 0 || y == 0 || x == (zabalera - 1) || y == (altuera - 1)) {
 	                gelaxkaBerria.setEdukia(Edukia.Horma);
 	            } else {
@@ -48,7 +47,6 @@ public class MatrizeEredua extends Observable {
 		int jarritakoEtsaiKop = 0;
 		while (jarritakoEtsaiKop < etsaiKop) {
 			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
-
 			if (gelaxka[rx][5].getEdukia() == Edukia.Hutsa) {
 				gelaxka[rx][5].setEdukia(Edukia.Etsaia);
 				jarritakoEtsaiKop++;
@@ -80,6 +78,9 @@ public class MatrizeEredua extends Observable {
 	}
 
 	public void jokoZikloaEguneratu() {
+		if (jokoaAmaitu) {
+			return;
+		}
 		for (int y = 1; y < altuera - 1; y++) {
 			for (int x = 1; x < zabalera - 1; x++) {
 				if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
@@ -100,11 +101,11 @@ public class MatrizeEredua extends Observable {
 		bistaEguneratu(); 
 	}
 	
-	
 	public void etsaiakMugitu() {
+		if (jokoaAmaitu) return;
+		
 		List<Point> etsaiPosizioak = new ArrayList<>();
 
-		
 		for (int x = 1; x < zabalera - 1; x++) {
 			for (int y = 1; y < altuera - 1; y++) {
 				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
@@ -114,9 +115,7 @@ public class MatrizeEredua extends Observable {
 			}
 		}
 
-		
 		for (Point p : etsaiPosizioak) {
-			// 0 = Ezkerra, 1 = Eskuina, 2 = Behera
 			int erabakia = (int) (Math.random() * 3); 
 			int xBerria = p.x;
 			int yBerria = p.y;
@@ -127,24 +126,26 @@ public class MatrizeEredua extends Observable {
 
 			boolean mugituDaiteke = true;
 
-			
 			if (xBerria <= 0 || xBerria >= zabalera - 1) {
 				mugituDaiteke = false;
 			}
-			
 			
 			if (mugituDaiteke && yBerria < altuera - 1 && gelaxka[xBerria][yBerria].getEdukia() == Edukia.Etsaia) {
 				mugituDaiteke = false;
 			}
 
-			
 			if (!mugituDaiteke) {
 				xBerria = p.x;
 				yBerria = p.y;
 			}
 
-			
 			if (yBerria < altuera - 1) {
+				// ← COLISION con el jugador
+				if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
+					jokoaAmaitu = true;
+					bistaEguneratu();
+					return;
+				}
 				gelaxka[xBerria][yBerria].setEdukia(Edukia.Etsaia);
 			}
 		}
@@ -152,10 +153,14 @@ public class MatrizeEredua extends Observable {
 		bistaEguneratu();
 	}
 
-	public void AldatuGelaxka (int x, int y, Edukia kolorea) {
+	public void AldatuGelaxka(int x, int y, Edukia kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
-            gelaxka [x][y].setEdukia(kolorea);
+            gelaxka[x][y].setEdukia(kolorea);
 		}
+	}
+	
+	public boolean isJokoaAmaitua() {
+	    return jokoaAmaitu;
 	}
 	
 	public Gelaxka[][] getGelaxkak() { return gelaxka; }

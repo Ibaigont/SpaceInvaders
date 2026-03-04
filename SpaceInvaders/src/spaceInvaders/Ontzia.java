@@ -21,7 +21,6 @@ public abstract class Ontzia extends Observable {
         this.maxY = maxY;
     }
 
-    // Movement must be implemented by concrete ship types
     public abstract void mugitu(String norabidea);
 
     public void setEzkerra(boolean ezk) {
