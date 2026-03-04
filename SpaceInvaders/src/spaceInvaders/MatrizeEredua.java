@@ -49,8 +49,8 @@ public class MatrizeEredua extends Observable {
 		while (jarritakoEtsaiKop < etsaiKop) {
 			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
 
-			if (gelaxka[rx][2].getEdukia() == Edukia.Hutsa) {
-				gelaxka[rx][2].setEdukia(Edukia.Etsaia);
+			if (gelaxka[rx][5].getEdukia() == Edukia.Hutsa) {
+				gelaxka[rx][5].setEdukia(Edukia.Etsaia);
 				jarritakoEtsaiKop++;
 			}
 		}
