@@ -68,13 +68,8 @@ public class MatrizeEredua extends Observable {
 	
 	public void tirokatu() {
 		if (ontzia == null) return;
-		int tx = ontzia.getX();
-		int ty = ontzia.getY() - 1; 
-		
-		if (ty > 0 && gelaxka[tx][ty].getEdukia() == Edukia.Hutsa) {
-			gelaxka[tx][ty].setEdukia(Edukia.Tiroa);
-			bistaEguneratu();
-		}
+		ontzia.tirokatu(gelaxka);
+		bistaEguneratu();
 	}
 
 	public void jokoZikloaEguneratu() {
@@ -102,55 +97,8 @@ public class MatrizeEredua extends Observable {
 	}
 	
 	public void etsaiakMugitu() {
-		if (jokoaAmaitu) return;
-		
-		List<Point> etsaiPosizioak = new ArrayList<>();
-
-		for (int x = 1; x < zabalera - 1; x++) {
-			for (int y = 1; y < altuera - 1; y++) {
-				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
-					etsaiPosizioak.add(new Point(x, y));
-					gelaxka[x][y].setEdukia(Edukia.Hutsa);
-				}
-			}
-		}
-
-		for (Point p : etsaiPosizioak) {
-			int erabakia = (int) (Math.random() * 3); 
-			int xBerria = p.x;
-			int yBerria = p.y;
-
-			if (erabakia == 0) xBerria--; 
-			else if (erabakia == 1) xBerria++; 
-			else if (erabakia == 2) yBerria++; 
-
-			boolean mugituDaiteke = true;
-
-			if (xBerria <= 0 || xBerria >= zabalera - 1) {
-				mugituDaiteke = false;
-			}
-			
-			if (mugituDaiteke && yBerria < altuera - 1 && gelaxka[xBerria][yBerria].getEdukia() == Edukia.Etsaia) {
-				mugituDaiteke = false;
-			}
-
-			if (!mugituDaiteke) {
-				xBerria = p.x;
-				yBerria = p.y;
-			}
-
-			if (yBerria < altuera - 1) {
-				// ← COLISION con el jugador
-				if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
-					jokoaAmaitu = true;
-					bistaEguneratu();
-					return;
-				}
-				gelaxka[xBerria][yBerria].setEdukia(Edukia.Etsaia);
-			}
-		}
-		
-		bistaEguneratu();
+		// Delegate to Etsaiak class
+		Etsaiak.etsaiakMugitu(this);
 	}
 
 	public void AldatuGelaxka(int x, int y, Edukia kolorea) {
@@ -170,5 +118,9 @@ public class MatrizeEredua extends Observable {
 	public void bistaEguneratu() {
 		setChanged();
 		notifyObservers();
+	}
+
+	public void amaituJokoa() {
+		this.jokoaAmaitu = true;
 	}
 }

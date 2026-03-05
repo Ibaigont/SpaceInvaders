@@ -27,4 +27,15 @@ public class JokalariOntzi extends Ontzia {
         update();
     }
 
+    // Shooting logic moved from MatrizeEredua
+    public void tirokatu(Gelaxka[][] gelaxka) {
+        int tx = getX();
+        int ty = getY() - 1;
+
+        if (ty > 0 && gelaxka[tx][ty].getEdukia() == Edukia.Hutsa) {
+            gelaxka[tx][ty].setEdukia(Edukia.Tiroa);
+            update();
+        }
+    }
+
 }
