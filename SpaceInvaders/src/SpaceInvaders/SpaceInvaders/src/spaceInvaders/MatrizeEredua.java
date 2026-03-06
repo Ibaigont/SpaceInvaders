@@ -39,7 +39,7 @@ public class MatrizeEredua extends Observable {
 	            gelaxka[x][y] = gelaxkaBerria;
 	        }
 	    }
-	    
+	    	
 	    ontzia = new JokalariOntzi(25, 27, 1, zabalera - 2, 1, altuera - 2);
 	    gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
@@ -97,8 +97,49 @@ public class MatrizeEredua extends Observable {
 	}
 	
 	public void etsaiakMugitu() {
-		// Delegate to Etsaiak class
-		Etsaiak.etsaiakMugitu(this);
+		if (jokoaAmaitu) return;
+
+		List<Point> etsaiPosizioak = new ArrayList<>();
+		for (int x = 1; x < zabalera - 1; x++) {
+			for (int y = 1; y < altuera - 1; y++) {
+				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
+					etsaiPosizioak.add(new Point(x, y));
+					gelaxka[x][y].setEdukia(Edukia.Hutsa);
+				}
+			}
+		}
+
+		for (Point p : etsaiPosizioak) {
+			Etsaiak e = new Etsaiak(p.x, p.y, 1, zabalera - 2, 1, altuera - 2);
+			String norabidea = Etsaiak.norabideRandom();
+			e.mugitu(norabidea);
+
+			int xBerria = e.getX();
+			int yBerria = e.getY();
+
+			if (xBerria <= 0 || xBerria >= zabalera - 1) {
+				xBerria = p.x;
+				yBerria = p.y;
+			}
+
+			if (yBerria < altuera - 1 && gelaxka[xBerria][yBerria].getEdukia() == Edukia.Etsaia) {
+				xBerria = p.x;
+				yBerria = p.y;
+			}
+
+			if (yBerria < altuera - 1) {
+				if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
+					amaituJokoa();
+					bistaEguneratu();
+					return;
+				}
+				gelaxka[xBerria][yBerria].setEdukia(Edukia.Etsaia);
+			} else {
+				gelaxka[p.x][p.y].setEdukia(Edukia.Etsaia);
+			}
+		}
+
+		bistaEguneratu();
 	}
 
 	public void AldatuGelaxka(int x, int y, Edukia kolorea) {

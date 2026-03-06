@@ -21,7 +21,26 @@ public abstract class Ontzia extends Observable {
         this.maxY = maxY;
     }
 
-    public abstract void mugitu(String norabidea);
+    // Default movement implementation shared by player and enemies.
+    public void mugitu(String norabidea) {
+        int nx = x;
+        int ny = y;
+        int a = getAbiadura();
+
+        if ("EZKERRA".equals(norabidea)) {
+            nx = Math.max(getMinX(), x - a);
+        } else if ("ESKUINA".equals(norabidea)) {
+            nx = Math.min(getMaxX(), x + a);
+        } else if ("GORA".equals(norabidea)) {
+            ny = Math.max(getMinY(), y - a);
+        } else if ("BEHERA".equals(norabidea)) {
+            ny = Math.min(getMaxY(), y + a);
+        }
+
+        setX(nx);
+        setY(ny);
+        update();
+    }
 
     public void setEzkerra(boolean ezk) {
         this.ezkerra = ezk;
@@ -39,27 +58,6 @@ public abstract class Ontzia extends Observable {
         this.behera = behera;
     }
 
-    // Individual movement helpers
-    /*public void mugituEzkerra() {
-        x -= abiadura;
-        update();
-    }
-
-    public void mugituEskuma() {
-        x += abiadura;
-        update(); 
-    }
-
-    public void mugituGora() {
-        y -= abiadura;
-        update();
-    }
-
-    public void mugituBehera() {
-        y += abiadura;
-        update();
-    }
-*/
     public void update() {
         setChanged();
         notifyObservers();
