@@ -1,5 +1,8 @@
 package SpaceInvaders;
 
+import Eredua.Gelaxka;
+import Eredua.MatrizeEredua;
+
 public class JokoKudeaketa {
 
     private static JokoKudeaketa nireKudeaketa = new JokoKudeaketa();

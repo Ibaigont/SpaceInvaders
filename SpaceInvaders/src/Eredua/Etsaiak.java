@@ -1,4 +1,4 @@
-package SpaceInvaders;
+package Eredua;
 
 import java.util.ArrayList;
 import java.util.List;

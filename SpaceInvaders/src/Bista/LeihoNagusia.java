@@ -1,6 +1,10 @@
-package SpaceInvaders;
+package Bista;
 
 import javax.swing.*;
+
+import Eredua.MatrizeEredua;
+import SpaceInvaders.JokoKudeaketa;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

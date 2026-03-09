@@ -2,6 +2,8 @@ package SpaceInvaders;
 
 import java.awt.EventQueue;
 
+import Bista.LeihoNagusia;
+
 
 public class Main {
     public static void main(String[] args) {

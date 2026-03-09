@@ -1,4 +1,6 @@
-package SpaceInvaders;
+package Eredua;
+
+import SpaceInvaders.Edukia;
 
 public class JokalariOntzi extends Ontzia {
 

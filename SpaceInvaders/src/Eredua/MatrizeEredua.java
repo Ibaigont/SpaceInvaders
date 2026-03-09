@@ -1,6 +1,9 @@
-package SpaceInvaders;
+package Eredua;
 
 import java.util.Observable;
+
+import SpaceInvaders.Edukia;
+
 import java.util.ArrayList; 
 import java.util.List;      
 import java.awt.Point;
