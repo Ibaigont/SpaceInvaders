@@ -13,9 +13,15 @@ public class JokoPanela extends JPanel {
     private GelaxkaBista[][] bistaMatrizea;
     private int zabalera = 0;
     private int altuera = 0;
+    private static JokoPanela panel = null;
 
-    public JokoPanela() {
+    private JokoPanela() {
         this.setBackground(Color.BLACK);
+    }
+    
+    public static JokoPanela getJokoPanela() {
+    	if (panel==null) panel = new JokoPanela();
+    	return panel;
     }
 
     public void egoeraEguneratu(Gelaxka[][] matrizea, int zabalera, int altuera) {
@@ -24,15 +30,15 @@ public class JokoPanela extends JPanel {
             this.zabalera = zabalera;
             this.altuera = altuera;
 
-            this.removeAll(); 
-            this.setLayout(new GridLayout(altuera, zabalera)); 
+            panel.removeAll(); 
+            panel.setLayout(new GridLayout(altuera, zabalera)); 
 
             bistaMatrizea = new GelaxkaBista[zabalera][altuera];
             for (int y = 0; y < altuera; y++) {
                 for (int x = 0; x < zabalera; x++) {
                     bistaMatrizea[x][y] = new GelaxkaBista();
                     matrizea[x][y].addObserver(bistaMatrizea[x][y]);
-                    this.add(bistaMatrizea[x][y]); 
+                    panel.add(bistaMatrizea[x][y]); 
                 }
             }
         }
@@ -57,7 +63,7 @@ public class JokoPanela extends JPanel {
             }
         }
 
-        this.revalidate(); 
-        this.repaint();
+        panel.revalidate(); 
+        panel.repaint();
     }
 }

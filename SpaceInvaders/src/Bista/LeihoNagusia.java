@@ -37,7 +37,7 @@ public class LeihoNagusia extends JFrame implements Observer {
         kartaPanela = new JPanel(kartaDiseinua);
 
         JPanel hasieraPanela = hasieraPanelaSortu();
-        jokoPanelaAtala = new JokoPanela();
+        jokoPanelaAtala = JokoPanela.getJokoPanela();
         jokoPanelaAtala.setFocusable(false);
 
         kartaPanela.add(hasieraPanela, "HASIERA");
