@@ -114,8 +114,7 @@ public class LeihoNagusia extends JFrame implements Observer {
                 tickKontagailua++;
                 if (tickKontagailua >= 4) {
                     eredua.etsaiakMugitu();
-                    // Comprobar condiciones de fin tras mover a los enemigos
-                    JokoKudeaketa.getJokoKudeaketa().egiaztatuAmaiera(eredua);
+                    JokoKudeaketa.getJokoKudeaketa().egiaztatuAmaiera();
                     tickKontagailua = 0;
                 }
             }
