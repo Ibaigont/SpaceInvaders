@@ -1,7 +1,5 @@
 package Eredua;
 
-import SpaceInvaders.Edukia;
-
 public class JokalariOntzi extends Ontzia {
 
     public JokalariOntzi(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {

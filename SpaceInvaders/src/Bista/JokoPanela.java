@@ -2,8 +2,8 @@ package Bista;
 
 import javax.swing.JPanel;
 
+import Eredua.Edukia;
 import Eredua.Gelaxka;
-import SpaceInvaders.Edukia;
 
 import java.awt.Color;
 import java.awt.GridLayout;

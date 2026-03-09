@@ -2,8 +2,6 @@ package Eredua;
 
 import java.util.Observable;
 
-import SpaceInvaders.Edukia;
-
 
 public class Gelaxka extends Observable {
     private int zabalera;

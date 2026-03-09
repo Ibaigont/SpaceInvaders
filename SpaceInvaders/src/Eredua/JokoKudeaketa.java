@@ -1,7 +1,4 @@
-package SpaceInvaders;
-
-import Eredua.Gelaxka;
-import Eredua.MatrizeEredua;
+package Eredua;
 
 public class JokoKudeaketa {
 
