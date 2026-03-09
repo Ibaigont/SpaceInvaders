@@ -53,7 +53,6 @@ public class MatrizeEredua extends Observable {
 			}
 		}
 		
-		bistaEguneratu();
 	}
 	
 	public void ontziaMugitu(String norabidea) {
