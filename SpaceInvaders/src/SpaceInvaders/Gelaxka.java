@@ -2,28 +2,23 @@ package SpaceInvaders;
 
 import java.util.Observable;
 
-
 public class Gelaxka extends Observable {
-    private int zabalera;
-    private int altuera;
+    private int x;
+    private int y;
     private Edukia edukia;
 
-    public Gelaxka(int zabalera, int altuera) {
-        this.zabalera = zabalera;
-        this.altuera = altuera;
+    public Gelaxka(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
-    public int getZabalera() {
-        return this.zabalera;
-    }
-    public int getAltuera() {
-        return this.altuera;
-    }
-    public Edukia getEdukia() {
-        return this.edukia;
-    }
+
+    public int getX() { return this.x; }
+    public int getY() { return this.y; }
+    public Edukia getEdukia() { return this.edukia; }
+
     public void setEdukia(Edukia edukia) {
         this.edukia = edukia;
         setChanged();
-        notifyObservers();    
+        notifyObservers();
     }
 }

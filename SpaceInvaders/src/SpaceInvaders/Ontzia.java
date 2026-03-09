@@ -21,7 +21,6 @@ public abstract class Ontzia extends Observable {
         this.maxY = maxY;
     }
 
-    // Default movement implementation shared by player and enemies.
     public void mugitu(String norabidea) {
         int nx = x;
         int ny = y;

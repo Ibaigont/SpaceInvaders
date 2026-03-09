@@ -52,8 +52,6 @@ public class MatrizeEredua extends Observable {
 				jarritakoEtsaiKop++;
 			}
 		}
-		
-		bistaEguneratu();
 	}
 	
 	public void ontziaMugitu(String norabidea) {
@@ -71,7 +69,6 @@ public class MatrizeEredua extends Observable {
 	public void tirokatu() {
 		if (ontzia == null) return;
 		ontzia.tirokatu(gelaxka);
-		bistaEguneratu();
 	}
 
 	public void jokoZikloaEguneratu() {
@@ -95,7 +92,6 @@ public class MatrizeEredua extends Observable {
 				}
 			}
 		}
-		bistaEguneratu(); 
 	}
 	
 	public void etsaiakMugitu() {
@@ -140,8 +136,6 @@ public class MatrizeEredua extends Observable {
 				gelaxka[p.x][p.y].setEdukia(Edukia.Etsaia);
 			}
 		}
-
-		bistaEguneratu();
 	}
 
 	public void AldatuGelaxka(int x, int y, Edukia kolorea) {
