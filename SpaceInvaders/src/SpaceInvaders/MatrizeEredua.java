@@ -58,9 +58,11 @@ public class MatrizeEredua extends Observable {
 	
 	public void ontziaMugitu(String norabidea) {
 		if (ontzia == null) return;
-		
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.Hutsa);
 		ontzia.mugitu(norabidea); 
+		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia()== Edukia.Etsaia) {
+			amaituJokoa();
+		}
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 		
 		bistaEguneratu();

@@ -4,31 +4,24 @@ public class JokoKudeaketa {
 
     private static JokoKudeaketa nireKudeaketa = new JokoKudeaketa();
     private boolean jokoaHasita = false;
-
+    private Boolean irabazi = false;
+    	
     private JokoKudeaketa() {}
 
     public static JokoKudeaketa getJokoKudeaketa() {
         return nireKudeaketa;
     }
 
-    /**
-     * Inicia el juego inicializando la matriz y reseteando el estado interno.
-     */
+   
     public void hasieratuJokoa(MatrizeEredua eredua) {
         if (eredua == null) return;
         jokoaHasita = true;
         eredua.matrizeaSortu();
     }
 
-    /**
-     * Comprueba condiciones de fin de juego:
-     * - si un enemigo está en la misma posición que el jugador (EspazioOntzia)
-     * - si un enemigo ha llegado al fondo jugable (fila altuera-2)
-     * - si no queda ningún enemigo (victoria)
-     * Si se detecta fin, marca el juego como terminado en el modelo y notifica vista.
-     */
-    public void egiaztatuAmaiera(MatrizeEredua eredua) {
-        if (eredua == null) return;
+    
+    public void egiaztatuAmaiera() {
+    	MatrizeEredua eredua = MatrizeEredua.getMatrizea();
         if (eredua.isJokoaAmaitua()) return;
 
         Gelaxka[][] gelaxka = eredua.getGelaxkak();
@@ -42,16 +35,13 @@ public class JokoKudeaketa {
                 Edukia e = gelaxka[x][y].getEdukia();
                 if (e == Edukia.Etsaia) {
                     anyEtsai = true;
-                    // Si un enemigo llega a la fila jugable más baja, terminar
                     if (y >= altuera - 2) {
                         eredua.amaituJokoa();
                         eredua.bistaEguneratu();
                         return;
                     }
                 }
-                // Colisión con el jugador (espacio ocupado por el jugador)
                 if (e == Edukia.EspazioOntzia) {
-                    // Revisar adyacentes por si un enemigo ha entrado en la casilla del jugador
                     for (int dx = -1; dx <= 1; dx++) {
                         for (int dy = -1; dy <= 1; dy++) {
                             int nx = x + dx;
@@ -69,13 +59,13 @@ public class JokoKudeaketa {
             }
         }
 
-        // Si no hay enemigos, el jugador gana
         if (!anyEtsai) {
+        	irabazi = true;
             eredua.amaituJokoa();
             eredua.bistaEguneratu();
             return;
         }
     }
-
+    
     public boolean isJokoaHasita() { return jokoaHasita; }
 }
