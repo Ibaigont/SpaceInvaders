@@ -1,4 +1,4 @@
-package spaceInvaders;
+package SpaceInvaders;
 
 public class JokalariOntzi extends Ontzia {
 

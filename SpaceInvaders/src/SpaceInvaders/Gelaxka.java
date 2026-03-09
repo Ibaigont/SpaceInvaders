@@ -1,4 +1,4 @@
-package spaceInvaders;
+package SpaceInvaders;
 
 import java.util.Observable;
 
