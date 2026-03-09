@@ -1,6 +1,8 @@
-package SpaceInvaders;
+package Eredua;
 
 import java.awt.EventQueue;
+
+import Bista.LeihoNagusia;
 
 
 public class Main {
