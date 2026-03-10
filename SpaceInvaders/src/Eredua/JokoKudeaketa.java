@@ -36,7 +36,7 @@ public class JokoKudeaketa {
                 if (e == Edukia.Etsaia) {
                     anyEtsai = true;
                     if (y >= altuera - 2) {
-                        eredua.amaituJokoa();
+                        eredua.amaituJokoa(false);
                         eredua.bistaEguneratu();
                         return;
                     }
@@ -48,7 +48,7 @@ public class JokoKudeaketa {
                             int ny = y + dy;
                             if (nx >= 1 && nx < zabalera - 1 && ny >= 1 && ny < altuera - 1) {
                                 if (gelaxka[nx][ny].getEdukia() == Edukia.Etsaia && ny == y) {
-                                    eredua.amaituJokoa();
+                                    eredua.amaituJokoa(false);
                                     eredua.bistaEguneratu();
                                     return;
                                 }
@@ -61,7 +61,7 @@ public class JokoKudeaketa {
 
         if (!anyEtsai) {
         	irabazi = true;
-            eredua.amaituJokoa();
+            eredua.amaituJokoa(true);
             eredua.bistaEguneratu();
             return;
         }

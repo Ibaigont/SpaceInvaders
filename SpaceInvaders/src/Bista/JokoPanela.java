@@ -35,6 +35,7 @@ public class JokoPanela extends JPanel {
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
                 bistaMatrizea[x][y] = new GelaxkaBista();
+                bistaMatrizea[x][y].update(matrizea[x][y], null);
                 matrizea[x][y].addObserver(bistaMatrizea[x][y]);
                 panel.add(bistaMatrizea[x][y]);
             }

@@ -19,6 +19,7 @@ public class MatrizeEredua extends Observable {
 	
 	private JokalariOntzi ontzia; 
 	private boolean jokoaAmaitu = false;
+	private boolean irabazi = false;
 	
 	private MatrizeEredua() {
 		this.gelaxka = new Gelaxka[zabalera][altuera];
@@ -68,7 +69,7 @@ public class MatrizeEredua extends Observable {
 		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.Hutsa);
 		ontzia.mugitu(norabidea); 
 		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia() == Edukia.Etsaia) {
-			amaituJokoa();
+			amaituJokoa(false);
 		}
 		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.EspazioOntzia);
 		bistaEguneratu();
@@ -146,7 +147,7 @@ public class MatrizeEredua extends Observable {
 
 			if (yBerria < altuera - 1) {
 				if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
-					amaituJokoa();
+					amaituJokoa(false);
 					bistaEguneratu();
 					return;
 				}
@@ -187,7 +188,12 @@ public class MatrizeEredua extends Observable {
 	    notifyObservers("EGUNERAKETA");
 	}
 
-	public void amaituJokoa() {
+	public void amaituJokoa(boolean irabazi) {
 		this.jokoaAmaitu = true;
+		this.irabazi = irabazi;
+	}
+	
+	public boolean isIrabazi() {
+		return irabazi;
 	}
 }

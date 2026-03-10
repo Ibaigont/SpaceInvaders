@@ -17,6 +17,7 @@ public class LeihoNagusia extends JFrame implements Observer {
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
     private JButton btnJolastu;
+    private GameOverPantaila gameOverPantaila;
 
     public LeihoNagusia(Kontroladorea kontroladorea, MatrizeEredua eredua) {
         this.eredua = eredua;
@@ -33,9 +34,11 @@ public class LeihoNagusia extends JFrame implements Observer {
         JPanel hasieraPanela = hasieraPanelaSortu();
         jokoPanelaAtala = JokoPanela.getJokoPanela();
         jokoPanelaAtala.setFocusable(false);
+        gameOverPantaila = new GameOverPantaila();
 
         kartaPanela.add(hasieraPanela, "HASIERA");
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
+        kartaPanela.add(gameOverPantaila, "GAMEOVER");
         kartaPanela.setFocusable(false);
 
         this.add(kartaPanela);
@@ -55,7 +58,7 @@ public class LeihoNagusia extends JFrame implements Observer {
             } else if ("EGUNERATU".equals(arg)) {
 
             } else if (eredua.isJokoaAmaitua()) {
-                // kartaPanela.add(new GameOverPantaila(), "GAMEOVER"); KLASEA GEHITU BEHAR DA!!
+                gameOverPantaila.setMezua(eredua.isIrabazi());
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
             }
         });
