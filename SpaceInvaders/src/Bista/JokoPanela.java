@@ -18,10 +18,11 @@ public class JokoPanela extends JPanel {
     private JokoPanela() {
         this.setBackground(Color.BLACK);
     }
-    
+
     public static JokoPanela getJokoPanela() {
-    	if (panel==null) panel = new JokoPanela();
-    	return panel;
+        if (panel == null)
+            panel = new JokoPanela();
+        return panel;
     }
 
     public void inicializatuEtaKonektatu(Gelaxka[][] matrizea, int zabalera, int altuera) {
@@ -34,7 +35,7 @@ public class JokoPanela extends JPanel {
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
                 bistaMatrizea[x][y] = new GelaxkaBista();
-                matrizea[x][y].addObserver(bistaMatrizea[x][y]); // conexión directa
+                matrizea[x][y].addObserver(bistaMatrizea[x][y]);
                 panel.add(bistaMatrizea[x][y]);
             }
         }

@@ -3,6 +3,7 @@ package Eredua;
 import java.awt.EventQueue;
 
 import Bista.LeihoNagusia;
+import Kontroladorea.Kontroladorea;
 
 
 public class Main {
@@ -10,7 +11,9 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    LeihoNagusia frame = new LeihoNagusia();
+                	MatrizeEredua eredua = MatrizeEredua.getMatrizea();
+                	Kontroladorea kontroladorea = new Kontroladorea(eredua);
+                    LeihoNagusia frame = new LeihoNagusia(kontroladorea, eredua);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();

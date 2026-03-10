@@ -14,6 +14,7 @@ public class MatrizeEredua extends Observable {
 	private int etsaiKop = 0;
 	private int etsaiMin = 4;
 	private int etsaiMax = 8;
+	private int tickKontagailua = 0;
 	private List<Gelaxka> gelaxkaCambiadasList = new ArrayList<>();
 	
 	private JokalariOntzi ontzia; 
@@ -100,6 +101,16 @@ public class MatrizeEredua extends Observable {
 			}
 		}
 		bistaEguneratu(); 
+	}
+	
+	public void tick() {
+		jokoZikloaEguneratu();
+		tickKontagailua++;
+		if (tickKontagailua >= 4) {
+			etsaiakMugitu();
+			JokoKudeaketa.getJokoKudeaketa().egiaztatuAmaiera();
+			tickKontagailua = 0;
+		}
 	}
 	
 	public void etsaiakMugitu() {

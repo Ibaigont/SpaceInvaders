@@ -6,7 +6,6 @@ public class JokalariOntzi extends Ontzia {
         super(hasieraX, hasieraY, minX, maxX, minY, maxY);
     }
 
-    // Shooting logic moved from MatrizeEredua
     public void tirokatu(Gelaxka[][] gelaxka) {
         int tx = getX();
         int ty = getY() - 1;

@@ -5,7 +5,7 @@ import java.util.Observable;
 public abstract class Ontzia extends Observable {
     private int x;
     private int y;
-    private static int abiadura = 1; 
+    private static int abiadura = 1;
     private boolean ezkerra;
     private boolean eskuma;
     private boolean gora;
@@ -21,7 +21,6 @@ public abstract class Ontzia extends Observable {
         this.maxY = maxY;
     }
 
-    // Default movement implementation shared by player and enemies.
     public void mugitu(String norabidea) {
         int nx = x;
         int ny = y;
@@ -71,13 +70,31 @@ public abstract class Ontzia extends Observable {
         return y;
     }
 
-    // Protected helpers for subclasses to adjust coordinates
-    protected int getMinX() { return minX; }
-    protected int getMaxX() { return maxX; }
-    protected int getMinY() { return minY; }
-    protected int getMaxY() { return maxY; }
-    protected int getAbiadura() { return abiadura; }
+    protected int getMinX() {
+        return minX;
+    }
 
-    protected void setX(int x) { this.x = x; }
-    protected void setY(int y) { this.y = y; }
+    protected int getMaxX() {
+        return maxX;
+    }
+
+    protected int getMinY() {
+        return minY;
+    }
+
+    protected int getMaxY() {
+        return maxY;
+    }
+
+    protected int getAbiadura() {
+        return abiadura;
+    }
+
+    protected void setX(int x) {
+        this.x = x;
+    }
+
+    protected void setY(int y) {
+        this.y = y;
+    }
 }
