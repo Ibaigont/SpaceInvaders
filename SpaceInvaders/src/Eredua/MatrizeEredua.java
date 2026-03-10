@@ -14,9 +14,9 @@ public class MatrizeEredua extends Observable {
 	private int etsaiKop = 0;
 	private int etsaiMin = 4;
 	private int etsaiMax = 8;
+	private List<Gelaxka> gelaxkaCambiadasList = new ArrayList<>();
 	
 	private JokalariOntzi ontzia; 
-	private int etsaienNorabidea = 1;
 	private boolean jokoaAmaitu = false;
 	
 	private MatrizeEredua() {
@@ -52,19 +52,25 @@ public class MatrizeEredua extends Observable {
 				jarritakoEtsaiKop++;
 			}
 		}
-		
-		
+
+		setChanged();
+		notifyObservers("MTRX_SORTUTA");
+	}
+
+	// Cambia estado SIN notificar y añade a la lista de cambios
+	public void setEdukiaTracked(int x, int y, Edukia edukia) {
+	    gelaxka[x][y].setEdukiaSilent(edukia);
+	    gelaxkaCambiadasList.add(gelaxka[x][y]);
 	}
 	
 	public void ontziaMugitu(String norabidea) {
 		if (ontzia == null) return;
-		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.Hutsa);
+		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.Hutsa);
 		ontzia.mugitu(norabidea); 
-		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia()== Edukia.Etsaia) {
+		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia() == Edukia.Etsaia) {
 			amaituJokoa();
 		}
-		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
-		
+		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.EspazioOntzia);
 		bistaEguneratu();
 	}
 	
@@ -75,21 +81,20 @@ public class MatrizeEredua extends Observable {
 	}
 
 	public void jokoZikloaEguneratu() {
-		if (jokoaAmaitu) {
-			return;
-		}
+		if (jokoaAmaitu) return;
+
 		for (int y = 1; y < altuera - 1; y++) {
 			for (int x = 1; x < zabalera - 1; x++) {
 				if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
-					gelaxka[x][y].setEdukia(Edukia.Hutsa); 
+					setEdukiaTracked(x, y, Edukia.Hutsa); 
 					int berriaY = y - 1; 
 					
 					if (berriaY > 0) {
 						Edukia aurreanDagoena = gelaxka[x][berriaY].getEdukia();
 						if (aurreanDagoena == Edukia.Etsaia) {
-							gelaxka[x][berriaY].setEdukia(Edukia.Hutsa);
+							setEdukiaTracked(x, berriaY, Edukia.Hutsa);
 						} else if (aurreanDagoena == Edukia.Hutsa) {
-							gelaxka[x][berriaY].setEdukia(Edukia.Tiroa);
+							setEdukiaTracked(x, berriaY, Edukia.Tiroa);
 						}
 					}
 				}
@@ -106,7 +111,7 @@ public class MatrizeEredua extends Observable {
 			for (int y = 1; y < altuera - 1; y++) {
 				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
 					etsaiPosizioak.add(new Point(x, y));
-					gelaxka[x][y].setEdukia(Edukia.Hutsa);
+					setEdukiaTracked(x, y, Edukia.Hutsa);
 				}
 			}
 		}
@@ -135,9 +140,9 @@ public class MatrizeEredua extends Observable {
 					bistaEguneratu();
 					return;
 				}
-				gelaxka[xBerria][yBerria].setEdukia(Edukia.Etsaia);
+				setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
 			} else {
-				gelaxka[p.x][p.y].setEdukia(Edukia.Etsaia);
+				setEdukiaTracked(p.x, p.y, Edukia.Etsaia);
 			}
 		}
 
@@ -146,7 +151,8 @@ public class MatrizeEredua extends Observable {
 
 	public void AldatuGelaxka(int x, int y, Edukia kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
-            gelaxka[x][y].setEdukia(kolorea);
+            setEdukiaTracked(x, y, kolorea);
+            bistaEguneratu();
 		}
 	}
 	
@@ -159,8 +165,13 @@ public class MatrizeEredua extends Observable {
 	public int getAltuera() { return altuera; }
 	
 	public void bistaEguneratu() {
-		setChanged();
-		notifyObservers();
+	    // Solo notificar las gelaxkas que cambiaron
+	    for (Gelaxka g : gelaxkaCambiadasList) {
+	        g.notifikatu();
+	    }
+	    gelaxkaCambiadasList.clear();
+	    setChanged();
+	    notifyObservers("EGUNERAKETA");
 	}
 
 	public void amaituJokoa() {

@@ -1,10 +1,8 @@
 package Bista;
 
 import javax.swing.*;
-
 import Eredua.JokoKudeaketa;
 import Eredua.MatrizeEredua;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,16 +49,21 @@ public class LeihoNagusia extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         SwingUtilities.invokeLater(() -> {
-            if (eredua.isJokoaAmaitua()) {
+        	if ("MTRX_SORTUTA".equals(arg)) {
+        		jokoPanelaAtala.inicializatuEtaKonektatu(
+                        eredua.getGelaxkak(),
+                        eredua.getZabalera(),
+                        eredua.getAltuera());
+        		kartaDiseinua.show(kartaPanela, "JOKOA");
+                getKontroladorea().jokoBegizta.start();
+                LeihoNagusia.this.requestFocus();
+        	} else if ("EGUNERATU".equals(arg)) {
+        		
+        	}
+        	else if (eredua.isJokoaAmaitua()) {
                 kontroladorea.jokoBegizta.stop();
                // kartaPanela.add(new GameOverPantaila(), "GAMEOVER"); KLASEA GEHITU BEHAR DA!!
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
-            } else {
-                jokoPanelaAtala.egoeraEguneratu(
-                    eredua.getGelaxkak(),
-                    eredua.getZabalera(),
-                    eredua.getAltuera()
-                );
             }
         });
     }

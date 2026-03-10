@@ -24,46 +24,22 @@ public class JokoPanela extends JPanel {
     	return panel;
     }
 
-    public void egoeraEguneratu(Gelaxka[][] matrizea, int zabalera, int altuera) {
-        
-        if (zabalera != this.zabalera || altuera != this.altuera) {
-            this.zabalera = zabalera;
-            this.altuera = altuera;
+    public void inicializatuEtaKonektatu(Gelaxka[][] matrizea, int zabalera, int altuera) {
+        this.zabalera = zabalera;
+        this.altuera = altuera;
+        panel.removeAll();
+        panel.setLayout(new GridLayout(altuera, zabalera));
+        bistaMatrizea = new GelaxkaBista[zabalera][altuera];
 
-            panel.removeAll(); 
-            panel.setLayout(new GridLayout(altuera, zabalera)); 
-
-            bistaMatrizea = new GelaxkaBista[zabalera][altuera];
-            for (int y = 0; y < altuera; y++) {
-                for (int x = 0; x < zabalera; x++) {
-                    bistaMatrizea[x][y] = new GelaxkaBista();
-                    matrizea[x][y].addObserver(bistaMatrizea[x][y]);
-                    panel.add(bistaMatrizea[x][y]); 
-                }
+        for (int y = 0; y < altuera; y++) {
+            for (int x = 0; x < zabalera; x++) {
+                bistaMatrizea[x][y] = new GelaxkaBista();
+                matrizea[x][y].addObserver(bistaMatrizea[x][y]); // conexión directa
+                panel.add(bistaMatrizea[x][y]);
             }
         }
 
-        
-        for (int x = 0; x < zabalera; x++) {
-            for (int y = 0; y < altuera; y++) {
-                Edukia e = matrizea[x][y].getEdukia();
-                GelaxkaBista bista = bistaMatrizea[x][y];
-
-                if (e == Edukia.Horma) {
-                    bista.setKolorea(Color.GRAY);
-                } else if (e == Edukia.EspazioOntzia) {
-                    bista.setKolorea(Color.GREEN);
-                } else if (e == Edukia.Etsaia) {
-                    bista.setKolorea(Color.RED);
-                } else if (e == Edukia.Tiroa) {
-                    bista.setKolorea(Color.WHITE);
-                } else {
-                    bista.setKolorea(Color.BLACK); 
-                }
-            }
-        }
-
-        panel.revalidate(); 
+        panel.revalidate();
         panel.repaint();
     }
 }

@@ -7,6 +7,8 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
+import Eredua.Gelaxka;
+
 public class GelaxkaBista extends JLabel implements Observer {
 
     public GelaxkaBista() {
@@ -20,7 +22,9 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		if (o instanceof Gelaxka) {
+			Gelaxka g = (Gelaxka) o ;
+			 setKolorea(g.getEdukia().kolorea);
+	    }	
 	}
 }
