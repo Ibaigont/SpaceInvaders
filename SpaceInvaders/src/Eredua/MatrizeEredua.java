@@ -57,7 +57,6 @@ public class MatrizeEredua extends Observable {
 		notifyObservers("MTRX_SORTUTA");
 	}
 
-	// Cambia estado SIN notificar y añade a la lista de cambios
 	public void setEdukiaTracked(int x, int y, Edukia edukia) {
 	    gelaxka[x][y].setEdukiaSilent(edukia);
 	    gelaxkaCambiadasList.add(gelaxka[x][y]);
@@ -105,7 +104,7 @@ public class MatrizeEredua extends Observable {
 	
 	public void etsaiakMugitu() {
 		if (jokoaAmaitu) return;
-
+		// Momentuko posisiak lortu eta beltz jarri
 		List<Point> etsaiPosizioak = new ArrayList<>();
 		for (int x = 1; x < zabalera - 1; x++) {
 			for (int y = 1; y < altuera - 1; y++) {
@@ -115,7 +114,7 @@ public class MatrizeEredua extends Observable {
 				}
 			}
 		}
-
+		// Posizio berria lortu
 		for (Point p : etsaiPosizioak) {
 			Etsaiak e = new Etsaiak(p.x, p.y, 1, zabalera - 2, 1, altuera - 2);
 			String norabidea = Etsaiak.norabideRandom();
@@ -143,6 +142,9 @@ public class MatrizeEredua extends Observable {
 				setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
 			} else {
 				setEdukiaTracked(p.x, p.y, Edukia.Etsaia);
+			}
+			if (xBerria != p.x || yBerria != p.y) {
+				gelaxkaCambiadasList.add(gelaxka[p.x][p.y]);
 			}
 		}
 
