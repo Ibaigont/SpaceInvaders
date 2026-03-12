@@ -67,15 +67,11 @@ public class LeihoNagusia extends JFrame implements Observer {
         JPanel p = new JPanel();
         p.setBackground(Color.BLACK);
         p.setFocusable(false);
-
-        // Usar layout vertical para que el label y el botón queden uno encima del otro
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-
-        // Cargar y escalar la imagen para que el JLabel sea más pequeño y mantenga proporción
         java.net.URL imgURL = getClass().getResource("space_invaders.jpg");
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
-            int targetWidth = 350; // nuevo ancho deseado
+            int targetWidth = 350; 
             int w = icon.getIconWidth();
             int h = icon.getIconHeight();
             if (w > 0) {
@@ -89,7 +85,7 @@ public class LeihoNagusia extends JFrame implements Observer {
             p.add(label);
             p.add(Box.createVerticalStrut(10));
         } else {
-            // Si no se encuentra la imagen, añadir un label de texto en su lugar para evitar NPE
+            // Irudiaren kargatzean arazoa  badago
             JLabel label = new JLabel("SPACE INVADERS");
             label.setForeground(Color.GREEN);
             label.setFont(new Font("Arial", Font.BOLD, 36));
