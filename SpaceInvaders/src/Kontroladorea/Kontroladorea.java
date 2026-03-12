@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.Timer;
-
 import Eredua.JokoKudeaketa;
 import Eredua.MatrizeEredua;
 
@@ -16,30 +15,40 @@ public class Kontroladorea extends KeyAdapter implements ActionListener {
     private Timer jokoBegizta;
     private Set<Integer> teclasPresionadas = new HashSet<>();
     private MatrizeEredua eredua;
+    private int tickKontagailua = 0;
 
     public Kontroladorea(MatrizeEredua eredua) {
         this.eredua = eredua;
         jokoBegizta = new Timer(50, this);
     }
 
+    public Timer getJokoBegizta() { return jokoBegizta; }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("JOLASTU".equals(e.getActionCommand())) {
-            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(eredua);
+            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(); 
             jokoBegizta.start();
+
         } else if (e.getSource() == jokoBegizta) {
             if (eredua.isJokoaAmaitua()) {
                 jokoBegizta.stop();
                 return;
             }
-
-            if (teclasPresionadas.contains(KeyEvent.VK_LEFT)) eredua.ontziaMugitu("EZKERRA");
+            if (teclasPresionadas.contains(KeyEvent.VK_LEFT))  eredua.ontziaMugitu("EZKERRA");
             if (teclasPresionadas.contains(KeyEvent.VK_RIGHT)) eredua.ontziaMugitu("ESKUINA");
-            if (teclasPresionadas.contains(KeyEvent.VK_UP)) eredua.ontziaMugitu("GORA");
-            if (teclasPresionadas.contains(KeyEvent.VK_DOWN)) eredua.ontziaMugitu("BEHERA");
+            if (teclasPresionadas.contains(KeyEvent.VK_UP))    eredua.ontziaMugitu("GORA");
+            if (teclasPresionadas.contains(KeyEvent.VK_DOWN))  eredua.ontziaMugitu("BEHERA");
             if (teclasPresionadas.contains(KeyEvent.VK_SPACE)) eredua.tirokatu();
 
-            eredua.tick();
+            eredua.jokoZikloaEguneratu(); 
+
+            tickKontagailua++;
+            if (tickKontagailua >= 4) {
+                eredua.etsaiakMugitu();   
+                JokoKudeaketa.getJokoKudeaketa().egiaztatuAmaiera();
+                tickKontagailua = 0;
+            }
         }
     }
 

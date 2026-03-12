@@ -13,7 +13,7 @@ public class Main {
                 try {
                 	MatrizeEredua eredua = MatrizeEredua.getMatrizea();
                 	Kontroladorea kontroladorea = new Kontroladorea(eredua);
-                    LeihoNagusia frame = new LeihoNagusia(kontroladorea, eredua);
+                    LeihoNagusia frame = new LeihoNagusia();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
