@@ -1,0 +1,13 @@
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Bista\GameOverPantaila.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Bista\GelaxkaBista.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Bista\JokoPanela.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Bista\LeihoNagusia.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\Edukia.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\Etsaiak.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\Gelaxka.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\JokalariOntzi.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\JokoKudeaketa.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\Main.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\MatrizeEredua.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Eredua\Ontzia.java
+C:\Users\34688\git\SpaceInvaders\SpaceInvaders\src\Kontroladorea\Kontroladorea.java

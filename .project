@@ -14,6 +14,13 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>SpaceInvaders/src/Bista/space_invaders.jpg</name>
+			<type>1</type>
+			<location>C:/Users/34688/Downloads/space_invaders.jpg</location>
+		</link>
+	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1773171111759</id>

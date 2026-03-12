@@ -67,15 +67,45 @@ public class LeihoNagusia extends JFrame implements Observer {
         JPanel p = new JPanel();
         p.setBackground(Color.BLACK);
         p.setFocusable(false);
-        JLabel title = new JLabel("SPACE INVADERS");
-        title.setForeground(Color.GREEN);
-        title.setFont(new Font("Arial", Font.BOLD, 36));
-        p.add(title);
+
+        // Usar layout vertical para que el label y el botón queden uno encima del otro
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+
+        // Cargar y escalar la imagen para que el JLabel sea más pequeño y mantenga proporción
+        java.net.URL imgURL = getClass().getResource("space_invaders.jpg");
+        if (imgURL != null) {
+            ImageIcon icon = new ImageIcon(imgURL);
+            int targetWidth = 350; // nuevo ancho deseado
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            if (w > 0) {
+                int scaledHeight = (int) ((double) targetWidth * h / w);
+                Image scaled = icon.getImage().getScaledInstance(targetWidth, scaledHeight, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(scaled);
+            }
+            JLabel label = new JLabel(icon);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            p.add(Box.createVerticalGlue());
+            p.add(label);
+            p.add(Box.createVerticalStrut(10));
+        } else {
+            // Si no se encuentra la imagen, añadir un label de texto en su lugar para evitar NPE
+            JLabel label = new JLabel("SPACE INVADERS");
+            label.setForeground(Color.GREEN);
+            label.setFont(new Font("Arial", Font.BOLD, 36));
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            p.add(Box.createVerticalGlue());
+            p.add(label);
+            p.add(Box.createVerticalStrut(10));
+        }
+
         btnJolastu = new JButton("Jolastu");
         btnJolastu.setFocusable(false);
         btnJolastu.setActionCommand("JOLASTU");
         btnJolastu.addActionListener(kontroladorea);
+        btnJolastu.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(btnJolastu);
+        p.add(Box.createVerticalGlue());
         return p;
     }
 
