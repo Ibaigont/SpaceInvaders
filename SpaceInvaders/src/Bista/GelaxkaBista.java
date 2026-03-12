@@ -22,19 +22,6 @@ public class GelaxkaBista extends JLabel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Gelaxka) {
-			Gelaxka g = (Gelaxka) o ;
-			Edukia edukia = g.getEdukia();
-			Color color;
-			switch(edukia) {
-			    case Hutsa: color = Color.BLACK; break;
-			    case EspazioOntzia: color = Color.GREEN; break;
-			    case Etsaia: color = Color.RED; break;
-			    case Tiroa: color = Color.WHITE; break;
-			    case Horma: color = Color.GRAY; break;
-			    default: color = Color.BLACK;
-			}
-			setKolorea(color);
-	    }	
+	    setKolorea((Color) arg);
 	}
 }

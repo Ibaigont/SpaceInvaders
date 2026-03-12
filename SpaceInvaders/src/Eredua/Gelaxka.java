@@ -23,7 +23,7 @@ public class Gelaxka extends Observable {
     }
     public void notifikatu() {
         setChanged();
-        notifyObservers();
+        notifyObservers(edukia.kolorea);
     }
     public void setEdukiaSilent(Edukia edukia) {
         this.edukia = edukia;
