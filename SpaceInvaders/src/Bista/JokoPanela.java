@@ -2,15 +2,15 @@ package Bista;
 
 import javax.swing.JPanel;
 
-import Eredua.Edukia;
-import Eredua.Gelaxka;
 
 import java.awt.Color;
 import java.awt.GridLayout;
 
 public class JokoPanela extends JPanel {
-	 
+     
     private static JokoPanela panel = null;
+    // Store the view matrix inside the panel
+    private GelaxkaBista[][] bistaMatrizea = null;
  
     private JokoPanela() {
         this.setBackground(Color.BLACK);
@@ -21,18 +21,39 @@ public class JokoPanela extends JPanel {
         	panel = new JokoPanela();
         }
         return panel;
-    	}
+     	}
+
+   
+    public void preparatuMatrizea(int zabalera, int altuera) {
+    	bistaMatrizea = null;
+        bistaMatrizea = new GelaxkaBista[zabalera][altuera];
+        this.setLayout(new GridLayout(altuera, zabalera));
+        for (int y = 0; y < altuera; y++) {
+            for (int x = 0; x < zabalera; x++) {
+                GelaxkaBista g = new GelaxkaBista();
+                bistaMatrizea[x][y] = g;
+                this.add(g);
+            }
+        }
+        this.revalidate();
+        this.repaint();
+    }
+
+    public GelaxkaBista[][] getBistaMatrizea() {
+        return bistaMatrizea;
+    }
     public void hasieratu(GelaxkaBista[][] bistaMatrizea, int zabalera, int altuera) {
-        panel.removeAll();
-        panel.setLayout(new GridLayout(altuera, zabalera));
+        // Use the current instance instead of the static reference to avoid accidental nulls
+        this.removeAll();
+        this.setLayout(new GridLayout(altuera, zabalera));
  
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
-                panel.add(bistaMatrizea[x][y]);
+                this.add(bistaMatrizea[x][y]);
             }
         }
  
-        panel.revalidate();
-        panel.repaint();
+        this.revalidate();
+        this.repaint();
      }
 }

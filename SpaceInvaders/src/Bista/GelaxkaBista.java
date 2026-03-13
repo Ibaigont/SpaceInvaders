@@ -1,13 +1,9 @@
 package Bista;
-
-import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.Color;
 
 import javax.swing.JLabel;
-
-import Eredua.Gelaxka;
-import Eredua.Edukia;
 
 public class GelaxkaBista extends JLabel implements Observer {
 
