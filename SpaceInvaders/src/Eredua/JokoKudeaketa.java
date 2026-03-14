@@ -1,8 +1,6 @@
 package Eredua;
 
 import java.util.Observable;
-import Bista.GelaxkaBista;
-import Bista.JokoPanela;
 
 @SuppressWarnings("deprecation")
 public class JokoKudeaketa extends Observable {
@@ -17,35 +15,24 @@ public class JokoKudeaketa extends Observable {
     }
 
     public void hasieratuJokoa() {
-        MatrizeEredua eredua = MatrizeEredua.getMatrizea();
+      
+   
         jokoaHasita = true;
-        eredua.matrizeaSortu();
-        Gelaxka[][] gelaxkak = eredua.getGelaxkak();
-        int zabalera = eredua.getZabalera();
-        int altuera = eredua.getAltuera();
+        MatrizeEredua.getMatrizea().matrizeaSortu();
 
-        GelaxkaBista[][] bistaMatrizea = new GelaxkaBista[zabalera][altuera];
-        for (int y = 0; y < altuera; y++) {
-            for (int x = 0; x < zabalera; x++) {
-                bistaMatrizea[x][y] = new GelaxkaBista();
-                gelaxkak[x][y].addObserver(bistaMatrizea[x][y]);
-            }
-        }
-
-        JokoPanela.getJokoPanela().hasieratu(bistaMatrizea, zabalera, altuera);
-
-        eredua.bistaEguneratu();
+        
         setChanged();
         notifyObservers("MTRX_SORTUTA");
+     
     }
 
     public void egiaztatuAmaiera() {
-        MatrizeEredua eredua = MatrizeEredua.getMatrizea();
-        if (eredua.isJokoaAmaitua()) return;
+     
+        if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;
 
-        Gelaxka[][] gelaxka = eredua.getGelaxkak();
-        int zabalera = eredua.getZabalera();
-        int altuera = eredua.getAltuera();
+        Gelaxka[][] gelaxka = MatrizeEredua.getMatrizea().getGelaxkak();
+        int zabalera = MatrizeEredua.getMatrizea().getZabalera();
+        int altuera = MatrizeEredua.getMatrizea().getAltuera();
         boolean anyEtsai = false;
 
         for (int x = 1; x < zabalera - 1; x++) {

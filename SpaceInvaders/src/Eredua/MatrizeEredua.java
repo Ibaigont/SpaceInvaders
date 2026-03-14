@@ -1,7 +1,8 @@
 package Eredua;
 
 import java.util.ArrayList; 
-import java.util.List;      
+import java.util.List;
+import java.util.Observable;
 import java.awt.Point;
 
 public class MatrizeEredua {
@@ -32,29 +33,29 @@ public class MatrizeEredua {
 	            Gelaxka gelaxkaBerria = new Gelaxka(x, y);
 	            gelaxka[x][y] = gelaxkaBerria;
 	            if (x == 0 || y == 0 || x == (zabalera - 1) || y == (altuera - 1)) {
-	                gelaxkaBerria.setEdukiaSilent(Edukia.Horma);
+	                gelaxkaBerria.setEdukia(Edukia.Horma);
 	            } else {
-	                gelaxkaBerria.setEdukiaSilent(Edukia.Hutsa);
+	                gelaxkaBerria.setEdukia(Edukia.Hutsa);
 	            }
 	        }
 	    }
 	    
 	    ontzia = new JokalariOntzi(25, 27, 1, zabalera - 2, 1, altuera - 2);
-	    gelaxka[ontzia.getX()][ontzia.getY()].setEdukiaSilent(Edukia.EspazioOntzia);
+	    gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
 		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
 		int jarritakoEtsaiKop = 0;
 		while (jarritakoEtsaiKop < etsaiKop) {
 			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
 			if (gelaxka[rx][5].getEdukia() == Edukia.Hutsa) {
-				gelaxka[rx][5].setEdukiaSilent(Edukia.Etsaia);
+				gelaxka[rx][5].setEdukia(Edukia.Etsaia);
 				jarritakoEtsaiKop++;
 			}
 		}
 	}
 
 	public void setEdukiaTracked(int x, int y, Edukia edukia) {
-	    gelaxka[x][y].setEdukiaSilent(edukia);
+	    gelaxka[x][y].setEdukia(edukia);
 	    gelaxkaCambiadasList.add(gelaxka[x][y]);
 	}
 
@@ -163,4 +164,16 @@ public class MatrizeEredua {
 	public Gelaxka[][] getGelaxkak() { return gelaxka; }
 	public int getZabalera() { return zabalera; }
 	public int getAltuera() { return altuera; }
+
+	public Gelaxka getGelaxka(int x, int y) {
+		
+		return this.gelaxka[x][y];
+	}
+	public void gelaxkaGuztiakNotifikatu() {
+	    for (int x = 0; x < zabalera; x++) {
+	        for (int y = 0; y < altuera; y++) {
+	            gelaxka[x][y].notifikatu();
+	        }
+	    }
+	}
 }

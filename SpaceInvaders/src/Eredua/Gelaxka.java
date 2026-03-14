@@ -21,19 +21,12 @@ public class Gelaxka extends Observable {
     public Edukia getEdukia() {
         return this.edukia;
     }
-    public void notifikatu() {
-        setChanged();
-        notifyObservers(edukia.kolorea);
-    }
-    public void setEdukiaSilent(Edukia edukia) {
-        this.edukia = edukia;
-    }
     public void setEdukia(Edukia edukia) {
         this.edukia = edukia;
+    }
 
+    public void notifikatu() {
         setChanged();
-        notifyObservers();
-        
+        notifyObservers(edukia == null ? null : edukia.kolorea);
     }
 }
-
