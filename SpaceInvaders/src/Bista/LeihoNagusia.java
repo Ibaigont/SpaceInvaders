@@ -7,25 +7,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.HashSet;
-import java.util.Set;
 
 @SuppressWarnings("deprecation")
 public class LeihoNagusia extends JFrame implements Observer, ActionListener, KeyListener {
 
-    private MatrizeEredua eredua;
     private JPanel kartaPanela;
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
     private JButton btnJolastu;
 
-    private Timer jokoBegizta;
-    private Set<Integer> teclasPresionadas = new HashSet<>();
-    private int tickKontagailua = 0;
     private GelaxkaBista[][] bistaMatrizea = null;
 
     public LeihoNagusia() {
-        this.eredua = MatrizeEredua.getMatrizea();
         JokoKudeaketa.getJokoKudeaketa().addObserver(this);
      
 
@@ -33,7 +26,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);      
-        this.jokoBegizta = new Timer(50, this);
         kartaDiseinua = new CardLayout();
         kartaPanela = new JPanel(kartaDiseinua);
 
@@ -65,18 +57,15 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
                  
                     	}
                     }         
-                MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
                 }
+                MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
                 kartaDiseinua.show(kartaPanela, "JOKOA");
-                if (!jokoBegizta.isRunning()) jokoBegizta.start();
                 LeihoNagusia.this.requestFocusInWindow();
 
             } else if ("IRABAZI".equals(arg)) {
-                jokoBegizta.stop();
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
 
             } else if ("GALDU".equals(arg)) {
-                jokoBegizta.stop();
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
             }
         });
@@ -137,7 +126,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	//Crear aqui el jokopanela  y la matrize
         if ("JOLASTU".equals(e.getActionCommand())) {
             // Mostrar inmediatamente la tarjeta de juego antes de inicializar el modelo
             // así el usuario ve la transición de forma instantánea.
@@ -147,40 +135,27 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
             new Thread(() -> {
                 JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
             }, "Inicializa-Jokoa-Thread").start();
-
-        } else if (e.getSource() == jokoBegizta) {
-            if (eredua.isJokoaAmaitua()) {
-                jokoBegizta.stop();
-                return;
-            }
-            if (teclasPresionadas.contains(KeyEvent.VK_LEFT)) {
-                eredua.ontziaMugitu("EZKERRA");
-            } else if (teclasPresionadas.contains(KeyEvent.VK_RIGHT)) {
-                eredua.ontziaMugitu("ESKUINA");
-            } else if (teclasPresionadas.contains(KeyEvent.VK_UP)) {
-                eredua.ontziaMugitu("GORA");
-            } else if (teclasPresionadas.contains(KeyEvent.VK_DOWN))  eredua.ontziaMugitu("BEHERA");
-            if (teclasPresionadas.contains(KeyEvent.VK_SPACE)) eredua.tirokatu();
-
-            eredua.jokoZikloaEguneratu();
-
-            tickKontagailua++;
-            if (tickKontagailua >= 4) {
-                eredua.etsaiakMugitu();   
-                JokoKudeaketa.getJokoKudeaketa().egiaztatuAmaiera();
-                tickKontagailua = 0;
-            }
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        teclasPresionadas.add(e.getKeyCode());
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_LEFT) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("EZKERRA");
+        else if (code == KeyEvent.VK_RIGHT) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("ESKUINA");
+        else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("GORA");
+        else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("BEHERA");
+        else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("TIROA");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        teclasPresionadas.remove(e.getKeyCode());
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_LEFT) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("EZKERRA");
+        else if (code == KeyEvent.VK_RIGHT) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("ESKUINA");
+        else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("GORA");
+        else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("BEHERA");
+        else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA");
     }
 
     @Override

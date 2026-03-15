@@ -1,8 +1,5 @@
 package Eredua;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.Point;
 
 public class Etsaiak extends Ontzia {
 

@@ -3,7 +3,6 @@ package Eredua;
 import java.util.ArrayList; 
 import java.util.List;
 import java.util.Observable;
-import java.awt.Point;
 
 public class MatrizeEredua {
 	
@@ -103,30 +102,30 @@ public class MatrizeEredua {
 	public void etsaiakMugitu() {
 		if (jokoaAmaitu) return;
 
-		List<Point> etsaiPosizioak = new ArrayList<>();
+		List<int[]> etsaiPosizioak = new ArrayList<>();
 		for (int x = 1; x < zabalera - 1; x++) {
 			for (int y = 1; y < altuera - 1; y++) {
 				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
-					etsaiPosizioak.add(new Point(x, y));
+					etsaiPosizioak.add(new int[]{x, y});
 					setEdukiaTracked(x, y, Edukia.Hutsa);
 				}
 			}
 		}
 
-		for (Point p : etsaiPosizioak) {
-			Etsaiak e = new Etsaiak(p.x, p.y, 1, zabalera - 2, 1, altuera - 2);
+		for (int[] p : etsaiPosizioak) {
+			Etsaiak e = new Etsaiak(p[0], p[1], 1, zabalera - 2, 1, altuera - 2);
 			e.mugitu(Etsaiak.norabideRandom());
 
 			int xBerria = e.getX();
 			int yBerria = e.getY();
 
 			if (xBerria <= 0 || xBerria >= zabalera - 1 || yBerria <= 0 || yBerria >= altuera - 1) {
-				xBerria = p.x;
-				yBerria = p.y;
+				xBerria = p[0];
+				yBerria = p[1];
 			}
 			if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.Etsaia) {
-				xBerria = p.x;
-				yBerria = p.y;
+				xBerria = p[0];
+				yBerria = p[1];
 			}
 			if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
 				bistaEguneratu();
@@ -134,8 +133,8 @@ public class MatrizeEredua {
 				return;
 			}
 			setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
-			if (xBerria != p.x || yBerria != p.y) {
-				gelaxkaCambiadasList.add(gelaxka[p.x][p.y]);
+			if (xBerria != p[0] || yBerria != p[1]) {
+				gelaxkaCambiadasList.add(gelaxka[p[0]][p[1]]);
 			}
 		}
 

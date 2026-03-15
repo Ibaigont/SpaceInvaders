@@ -1,12 +1,19 @@
 package Eredua;
 
 import java.util.Observable;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SuppressWarnings("deprecation")
 public class JokoKudeaketa extends Observable {
 
     private static JokoKudeaketa nireKudeaketa = new JokoKudeaketa();
     private boolean jokoaHasita = false;
+    private Timer jokoBegizta;
+    private int tickKontagailua = 0;
+    private Set<String> teclasPresionadas = new HashSet<>();
 
     private JokoKudeaketa() {}
 
@@ -14,20 +21,62 @@ public class JokoKudeaketa extends Observable {
         return nireKudeaketa;
     }
 
+    public void teklaSakatu(String tekla) {
+        teclasPresionadas.add(tekla);
+    }
+
+    public void teklaAskatu(String tekla) {
+        teclasPresionadas.remove(tekla);
+    }
+
     public void hasieratuJokoa() {
-      
-   
         jokoaHasita = true;
         MatrizeEredua.getMatrizea().matrizeaSortu();
 
-        
         setChanged();
         notifyObservers("MTRX_SORTUTA");
-     
+
+        if (jokoBegizta != null) jokoBegizta.cancel();
+        jokoBegizta = new Timer("JokoBegizta", true);
+        jokoBegizta.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                jokoZikloa();
+            }
+        }, 0, 50);
+    }
+
+    private void jokoZikloa() {
+        if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) {
+            if (jokoBegizta != null) jokoBegizta.cancel();
+            return;
+        }
+
+        if (teclasPresionadas.contains("EZKERRA")) {
+            MatrizeEredua.getMatrizea().ontziaMugitu("EZKERRA");
+        } else if (teclasPresionadas.contains("ESKUINA")) {
+            MatrizeEredua.getMatrizea().ontziaMugitu("ESKUINA");
+        } else if (teclasPresionadas.contains("GORA")) {
+            MatrizeEredua.getMatrizea().ontziaMugitu("GORA");
+        } else if (teclasPresionadas.contains("BEHERA")) {
+            MatrizeEredua.getMatrizea().ontziaMugitu("BEHERA");
+        }
+
+        if (teclasPresionadas.contains("TIROA")) {
+            MatrizeEredua.getMatrizea().tirokatu();
+        }
+
+        MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
+
+        tickKontagailua++;
+        if (tickKontagailua >= 4) {
+            MatrizeEredua.getMatrizea().etsaiakMugitu();
+            egiaztatuAmaiera();
+            tickKontagailua = 0;
+        }
     }
 
     public void egiaztatuAmaiera() {
-     
         if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;
 
         Gelaxka[][] gelaxka = MatrizeEredua.getMatrizea().getGelaxkak();
@@ -69,6 +118,7 @@ public class JokoKudeaketa extends Observable {
 
     public void amaituJokoa(boolean irabazi) {
         MatrizeEredua.getMatrizea().amaituJokoa();
+        if (jokoBegizta != null) jokoBegizta.cancel();
         setChanged();
         notifyObservers(irabazi ? "IRABAZI" : "GALDU");
     }
