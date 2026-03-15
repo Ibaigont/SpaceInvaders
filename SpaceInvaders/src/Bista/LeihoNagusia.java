@@ -34,7 +34,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
        
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
-        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHIKEN DINNER", Color.GREEN), "IRABAZI");
+        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHICKEN DINNER", Color.GREEN), "IRABAZI");
         kartaPanela.add(amaieraPanelaSortu("GALDU... Saiatu berriro!", Color.RED), "GAMEOVER");
         kartaPanela.setFocusable(false);
 
