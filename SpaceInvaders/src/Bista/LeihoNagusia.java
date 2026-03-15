@@ -127,11 +127,9 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("JOLASTU".equals(e.getActionCommand())) {
-            // Mostrar inmediatamente la tarjeta de juego antes de inicializar el modelo
-            // así el usuario ve la transición de forma instantánea.
+            
             kartaDiseinua.show(kartaPanela, "JOKOA");
-            System.out.println("[LeihoNagusia] Boton JOLASTU pulsado: mostrando JOKOA y lanzando inicializacion en background");
-            // Inicializamos el modelo en un hilo de fondo para no bloquear la EDT.
+            
             new Thread(() -> {
                 JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
             }, "Inicializa-Jokoa-Thread").start();
