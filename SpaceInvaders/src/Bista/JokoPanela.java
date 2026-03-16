@@ -43,7 +43,6 @@ public class JokoPanela extends JPanel {
         return bistaMatrizea;
     }
     public void hasieratu(GelaxkaBista[][] bistaMatrizea, int zabalera, int altuera) {
-        // Use the current instance instead of the static reference to avoid accidental nulls
         this.removeAll();
         this.setLayout(new GridLayout(altuera, zabalera));
  

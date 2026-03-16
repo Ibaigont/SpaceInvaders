@@ -20,12 +20,12 @@ public class GelaxkaBista extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
         if (arg instanceof String) {
-            String state = (String) arg;
+            String egoera = (String) arg;
             Color c = Color.BLACK;
-            if (state.equals("EspazioOntzia")) c = Color.GREEN;
-            else if (state.equals("Etsaia")) c = Color.RED;
-            else if (state.equals("Tiroa")) c = Color.WHITE;
-            else if (state.equals("Horma")) c = Color.GRAY;
+            if (egoera.equals("EspazioOntzia")) c = Color.GREEN;
+            else if (egoera.equals("Etsaia")) c = Color.RED;
+            else if (egoera.equals("Tiroa")) c = Color.WHITE;
+            else if (egoera.equals("Horma")) c = Color.GRAY;
             
             final Color bg = c;
             SwingUtilities.invokeLater(() -> setKolorea(bg));
