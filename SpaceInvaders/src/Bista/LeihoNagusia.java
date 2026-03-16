@@ -32,7 +32,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
 
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
-        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHIKEN DINNER", Color.GREEN), "IRABAZI");
+        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHICKEN DINNER", Color.GREEN), "IRABAZI");
         kartaPanela.add(amaieraPanelaSortu("GALDU... Saiatu berriro!", Color.RED), "GAMEOVER");
         kartaPanela.setFocusable(false);
 
@@ -114,9 +114,15 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("JOLASTU".equals(e.getActionCommand())) {
+<<<<<<< HEAD
             kartaDiseinua.show(kartaPanela, "JOKOA");
             System.out.println(
                     "[LeihoNagusia] Boton JOLASTU pulsado: mostrando JOKOA y lanzando inicializacion en background");
+=======
+            
+            kartaDiseinua.show(kartaPanela, "JOKOA");
+            
+>>>>>>> 5321a00d455427577b0dc3eff982d13ce9fa7532
             new Thread(() -> {
                 JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
             }, "Inicializa-Jokoa-Thread").start();
