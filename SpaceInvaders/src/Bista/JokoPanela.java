@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 public class JokoPanela extends JPanel {
      
     private static JokoPanela panel = null;
-    // Store the view matrix inside the panel
     private GelaxkaBista[][] bistaMatrizea = null;
  
     private JokoPanela() {
@@ -43,7 +42,6 @@ public class JokoPanela extends JPanel {
         return bistaMatrizea;
     }
     public void hasieratu(GelaxkaBista[][] bistaMatrizea, int zabalera, int altuera) {
-        // Use the current instance instead of the static reference to avoid accidental nulls
         this.removeAll();
         this.setLayout(new GridLayout(altuera, zabalera));
  
