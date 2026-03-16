@@ -2,10 +2,6 @@ package Eredua;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-=======
-
->>>>>>> 5321a00d455427577b0dc3eff982d13ce9fa7532
 
 public class MatrizeEredua {
 
