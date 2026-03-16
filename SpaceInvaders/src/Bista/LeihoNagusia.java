@@ -115,8 +115,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     public void actionPerformed(ActionEvent e) {
         if ("JOLASTU".equals(e.getActionCommand())) {
             kartaDiseinua.show(kartaPanela, "JOKOA");
-            System.out.println(
-                    "[LeihoNagusia] Boton JOLASTU pulsado: mostrando JOKOA y lanzando inicializacion en background");
+            
             new Thread(() -> {
                 JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
             }, "Inicializa-Jokoa-Thread").start();

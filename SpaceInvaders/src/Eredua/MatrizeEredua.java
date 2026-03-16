@@ -38,7 +38,7 @@ public class MatrizeEredua {
 			}
 		}
 
-		ontzia = new JokalariOntzi(25, 27, 1, zabalera - 2, 1, altuera - 2);
+		ontzia = new JokalariOntzi(50, 55, 1, zabalera - 2, 1, altuera - 2);
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
 		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
