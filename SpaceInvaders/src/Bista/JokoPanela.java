@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 public class JokoPanela extends JPanel {
      
     private static JokoPanela panel = null;
-    // Store the view matrix inside the panel
     private GelaxkaBista[][] bistaMatrizea = null;
  
     private JokoPanela() {
