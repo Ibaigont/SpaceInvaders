@@ -6,14 +6,11 @@ public class JokalariOntzi extends Ontzia {
         super(hasieraX, hasieraY, minX, maxX, minY, maxY);
     }
 
-    public void tirokatu(Gelaxka[][] gelaxka) {
+    public Tiroa tirokatu() {
         int tx = getX();
         int ty = getY() - 1;
-
-        if (ty > 0 && gelaxka[tx][ty].getEdukia() == Edukia.Hutsa) {
-            gelaxka[tx][ty].setEdukia(Edukia.Tiroa);
-            update();
-        }
+        update();
+        return new Tiroa(tx, ty);
     }
 
 }

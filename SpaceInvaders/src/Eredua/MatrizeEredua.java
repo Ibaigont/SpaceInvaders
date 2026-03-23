@@ -16,6 +16,7 @@ public class MatrizeEredua {
 
 	private JokalariOntzi ontzia;
 	private boolean jokoaAmaitu = false;
+	private List<Tiroa> tiroak = new ArrayList<>();
 
 	private MatrizeEredua() {
 		this.gelaxka = new Gelaxka[zabalera][altuera];
@@ -26,6 +27,7 @@ public class MatrizeEredua {
 	}
 
 	public void matrizeaSortu() {
+		tiroak.clear();
 		for (int x = 0; x < zabalera; x++) {
 			for (int y = 0; y < altuera; y++) {
 				Gelaxka gelaxkaBerria = new Gelaxka(x, y);
@@ -74,7 +76,11 @@ public class MatrizeEredua {
 	public void tirokatu() {
 		if (ontzia == null)
 			return;
-		ontzia.tirokatu(gelaxka);
+		Tiroa t = ontzia.tirokatu();
+		if (t.getY() > 0 && gelaxka[t.getX()][t.getY()].getEdukia() == Edukia.Hutsa) {
+			setEdukiaTracked(t.getX(), t.getY(), Edukia.Tiroa);
+			tiroak.add(t);
+		}
 		bistaEguneratu();
 	}
 
@@ -82,22 +88,34 @@ public class MatrizeEredua {
 		if (jokoaAmaitu)
 			return;
 
-		for (int y = 1; y < altuera - 1; y++) {
-			for (int x = 1; x < zabalera - 1; x++) {
-				if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
-					setEdukiaTracked(x, y, Edukia.Hutsa);
-					int berriaY = y - 1;
-					if (berriaY > 0) {
-						Edukia aurreanDagoena = gelaxka[x][berriaY].getEdukia();
-						if (aurreanDagoena == Edukia.Etsaia) {
-							setEdukiaTracked(x, berriaY, Edukia.Hutsa);
-						} else if (aurreanDagoena == Edukia.Hutsa) {
-							setEdukiaTracked(x, berriaY, Edukia.Tiroa);
-						}
-					}
+		List<Tiroa> borratzekoak = new ArrayList<>();
+		for (Tiroa t : tiroak) {
+			int x = t.getX();
+			int y = t.getY();
+			
+			if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
+				setEdukiaTracked(x, y, Edukia.Hutsa);
+			}
+
+			t.mugituGora();
+			int berriaY = t.getY();
+
+			if (berriaY > 0) {
+				Edukia aurreanDagoena = gelaxka[x][berriaY].getEdukia();
+				if (aurreanDagoena == Edukia.Etsaia) {
+					setEdukiaTracked(x, berriaY, Edukia.Hutsa);
+					borratzekoak.add(t);
+				} else if (aurreanDagoena == Edukia.Hutsa) {
+					setEdukiaTracked(x, berriaY, Edukia.Tiroa);
+				} else {
+					borratzekoak.add(t);
 				}
+			} else {
+				borratzekoak.add(t);
 			}
 		}
+		tiroak.removeAll(borratzekoak);
+
 		bistaEguneratu();
 	}
 
