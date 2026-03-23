@@ -15,6 +15,7 @@ public class JokoKudeaketa extends Observable {
     private Timer jokoBegizta;
     private int tickKontagailua = 0;
     private Set<String> teclasPresionadas = new HashSet<>();
+    boolean tiroEginDa;
 
     private JokoKudeaketa() {}
 
@@ -23,11 +24,22 @@ public class JokoKudeaketa extends Observable {
     }
 
     public void teklaSakatu(String tekla) {
-        teclasPresionadas.add(tekla);
+        if (tekla.equals("TIROA")) {
+            
+			if (!tiroEginDa) { 
+                teclasPresionadas.add(tekla);
+                tiroEginDa = true; 
+            }
+        } else {
+            teclasPresionadas.add(tekla);
+        }
     }
 
     public void teklaAskatu(String tekla) {
         teclasPresionadas.remove(tekla);
+        if (tekla.equals("TIROA")) {
+            tiroEginDa = false;
+        }
     }
 
     public void hasieratuJokoa() {
@@ -65,6 +77,7 @@ public class JokoKudeaketa extends Observable {
 
         if (teclasPresionadas.contains("TIROA")) {
             MatrizeEredua.getMatrizea().tirokatu();
+            teclasPresionadas.remove("TIROA");
         }
 
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
