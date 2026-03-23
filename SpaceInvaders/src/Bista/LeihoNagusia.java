@@ -14,12 +14,12 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
     private JButton btnJolastu;
+    private GameOverPantaila irabazoPantaila;
+    private GameOverPantaila galduPantaila;
 
     private GelaxkaBista[][] bistaMatrizea = null;
 
     public LeihoNagusia() {
-        JokoKudeaketa.getJokoKudeaketa().addObserver(this);
-
         this.setTitle("Space Invaders");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,12 +32,19 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
 
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
-        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHICKEN DINNER", Color.GREEN), "IRABAZI");
-        kartaPanela.add(amaieraPanelaSortu("GALDU... Saiatu berriro!", Color.RED), "GAMEOVER");
+        
+        irabazoPantaila = new GameOverPantaila();
+        galduPantaila = new GameOverPantaila();
+        kartaPanela.add(irabazoPantaila, "IRABAZI");
+        kartaPanela.add(galduPantaila, "GAMEOVER");
+        
         kartaPanela.setFocusable(false);
 
         this.add(kartaPanela);
         this.addKeyListener(this);
+        
+        
+        JokoKudeaketa.getJokoKudeaketa().addObserver(this);
     }
 
     @Override
@@ -51,9 +58,11 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
                 LeihoNagusia.this.requestFocusInWindow();
 
             } else if ("IRABAZI".equals(arg)) {
+                irabazoPantaila.setMezua(true);
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
 
             } else if ("GALDU".equals(arg)) {
+                galduPantaila.setMezua(false);
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
             }
         });
@@ -98,16 +107,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         btnJolastu.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(btnJolastu);
         p.add(Box.createVerticalGlue());
-        return p;
-    }
-
-    private JPanel amaieraPanelaSortu(String mezua, Color kolorea) {
-        JPanel p = new JPanel(new GridBagLayout());
-        p.setBackground(Color.BLACK);
-        JLabel label = new JLabel(mezua);
-        label.setForeground(kolorea);
-        label.setFont(new Font("Arial", Font.BOLD, 30));
-        p.add(label);
         return p;
     }
 
