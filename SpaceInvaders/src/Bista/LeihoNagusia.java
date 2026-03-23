@@ -14,7 +14,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
     private JButton btnJolastu;
-    private GameOverPantaila irabazoPantaila;
+    private GameOverPantaila irabaziPantaila;
     private GameOverPantaila galduPantaila;
 
     private GelaxkaBista[][] bistaMatrizea = null;
@@ -33,9 +33,9 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
 
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
         
-        irabazoPantaila = new GameOverPantaila();
+        irabaziPantaila = new GameOverPantaila();
         galduPantaila = new GameOverPantaila();
-        kartaPanela.add(irabazoPantaila, "IRABAZI");
+        kartaPanela.add(irabaziPantaila, "IRABAZI");
         kartaPanela.add(galduPantaila, "GAMEOVER");
         
         kartaPanela.setFocusable(false);
@@ -58,7 +58,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
                 LeihoNagusia.this.requestFocusInWindow();
 
             } else if ("IRABAZI".equals(arg)) {
-                irabazoPantaila.setMezua(true);
+                irabaziPantaila.setMezua(true);
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
 
             } else if ("GALDU".equals(arg)) {
