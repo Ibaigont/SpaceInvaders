@@ -18,12 +18,19 @@ public class MatrizeEredua {
 	private boolean jokoaAmaitu = false;
 	private List<Tiroa> tiroak = new ArrayList<>();
 
+	// owner id generation for entities (e.g., each enemy group gets an id)
+	private int nextEntityId = 1;
+
 	private MatrizeEredua() {
 		this.gelaxka = new Gelaxka[zabalera][altuera];
 	}
 
 	public static MatrizeEredua getMatrizea() {
 		return nireMatrizea;
+	}
+
+	private int assignOwnerId() {
+		return nextEntityId++;
 	}
 
 	public void matrizeaSortu() {
@@ -48,15 +55,47 @@ public class MatrizeEredua {
 		while (jarritakoEtsaiKop < etsaiKop) {
 			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
 			if (gelaxka[rx][5].getEdukia() == Edukia.Hutsa) {
-				gelaxka[rx][5].setEdukia(Edukia.Etsaia);
+				// Assign a new owner id for this enemy pixel
+				int oid = assignOwnerId();
+				gelaxka[rx][5].setEdukia(Edukia.Etsaia, oid);
 				jarritakoEtsaiKop++;
 			}
 		}
 	}
 
+	/**
+	 * Set the cell content and optionally assign an ownerId. Use ownerId = -1 for none.
+	 */
 	public void setEdukiaTracked(int x, int y, Edukia edukia) {
-		gelaxka[x][y].setEdukia(edukia);
+		setEdukiaTracked(x, y, edukia, -1);
+	}
+
+	public void setEdukiaTracked(int x, int y, Edukia edukia, int ownerId) {
+		if (x < 0 || x >= zabalera || y < 0 || y >= altuera)
+			return;
+		if (ownerId >= 0) {
+			gelaxka[x][y].setEdukia(edukia, ownerId);
+		} else {
+			gelaxka[x][y].setEdukia(edukia);
+		}
 		gelaxkaCambiadasList.add(gelaxka[x][y]);
+	}
+
+	/**
+	 * Remove all cells that belong to the given ownerId (set them to Hutsa).
+	 */
+	public void clearEntityById(int ownerId) {
+		if (ownerId < 0)
+			return;
+		for (int x = 0; x < zabalera; x++) {
+			for (int y = 0; y < altuera; y++) {
+				Gelaxka g = gelaxka[x][y];
+				if (g.getOwnerId() == ownerId) {
+					g.setEdukia(Edukia.Hutsa);
+					gelaxkaCambiadasList.add(g);
+				}
+			}
+		}
 	}
 
 	public void ontziaMugitu(String norabidea) {
@@ -103,7 +142,13 @@ public class MatrizeEredua {
 			if (berriaY > 0) {
 				Edukia aurreanDagoena = gelaxka[x][berriaY].getEdukia();
 				if (aurreanDagoena == Edukia.Etsaia) {
-					setEdukiaTracked(x, berriaY, Edukia.Hutsa);
+					// If we hit an enemy pixel, clear the whole entity that owns it
+					int ownerId = gelaxka[x][berriaY].getOwnerId();
+					if (ownerId >= 0) {
+						clearEntityById(ownerId);
+					} else {
+						setEdukiaTracked(x, berriaY, Edukia.Hutsa);
+					}
 					borratzekoak.add(t);
 				} else if (aurreanDagoena == Edukia.Hutsa) {
 					setEdukiaTracked(x, berriaY, Edukia.Tiroa);
@@ -153,7 +198,13 @@ public class MatrizeEredua {
 				JokoKudeaketa.getJokoKudeaketa().amaituJokoa(false); // ← GALDU
 				return;
 			}
-			setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
+			// Preserve the ownerId if the previous cell we cleared had an owner
+			int prevOwnerId = gelaxka[p[0]][p[1]].getOwnerId();
+			if (prevOwnerId >= 0) {
+				setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia, prevOwnerId);
+			} else {
+				setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
+			}
 			if (xBerria != p[0] || yBerria != p[1]) {
 				gelaxkaCambiadasList.add(gelaxka[p[0]][p[1]]);
 			}
