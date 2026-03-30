@@ -23,5 +23,7 @@ public class EtsaiakFactory {
                                           int minX, int maxX,
                                           int minY, int maxY) {
         return new Etsaiak(posizio[0], posizio[1], minX, maxX, minY, maxY);
+        
+        // Bukle baten bidez banan banan sartu posizioak arraya ez da behar
     }
 }
