@@ -12,7 +12,9 @@ public class MatrizeEredua {
 	private int etsaiKop = 0;
 	private int etsaiMin = 4;
 	private int etsaiMax = 8;
-	private List<Gelaxka> gelaxkaCambiadasList = new ArrayList<>();
+	
+	// Izen berria hemen ezarri dugu
+	private List<Gelaxka> aldatutakoGelaxkak = new ArrayList<>();
 
 	private JokalariOntzi ontzia;
 	private boolean jokoaAmaitu = false;
@@ -33,43 +35,44 @@ public class MatrizeEredua {
 				Gelaxka gelaxkaBerria = new Gelaxka(x, y);
 				gelaxka[x][y] = gelaxkaBerria;
 				if (x == 0 || y == 0 || x == (zabalera - 1) || y == (altuera - 1)) {
-					gelaxkaBerria.setEdukia(Edukia.Horma);
+					gelaxkaBerria.setEdukia(new HormaEgoera());
 				} else {
-					gelaxkaBerria.setEdukia(Edukia.Hutsa);
+					gelaxkaBerria.setEdukia(new HutsaEgoera());
 				}
 			}
 		}
 
 		ontzia = JokalariOntziFactory.getJokalariOntziFactory().sortuJokalariOntziMatrizetik(zabalera, altuera);
-		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
+		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(new EspazioOntziaEgoera());
 
 		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
 		int jarritakoEtsaiKop = 0;
 		while (jarritakoEtsaiKop < etsaiKop) {
 			int rx = (int) (Math.random() * (zabalera - 2)) + 1;
-			if (gelaxka[rx][5].getEdukia() == Edukia.Hutsa) {
-				gelaxka[rx][5].setEdukia(Edukia.Etsaia);
+			if (gelaxka[rx][5].getEdukia() instanceof HutsaEgoera) {
+				gelaxka[rx][5].setEdukia(new EtsaiEgoera());
 				jarritakoEtsaiKop++;
 			}
 		}
 	}
 
-	public void setEdukiaTracked(int x, int y, Edukia edukia) {
+	public void setEdukiaTracked(int x, int y, EdukiaEgoera edukia) {
 		gelaxka[x][y].setEdukia(edukia);
-		gelaxkaCambiadasList.add(gelaxka[x][y]);
+		// Zerrenda berria erabiliz
+		aldatutakoGelaxkak.add(gelaxka[x][y]);
 	}
 
 	public void ontziaMugitu(String norabidea) {
 		if (ontzia == null)
 			return;
-		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.Hutsa);
+		setEdukiaTracked(ontzia.getX(), ontzia.getY(), new HutsaEgoera());
 		ontzia.mugitu(norabidea);
-		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia() == Edukia.Etsaia) {
+		if (gelaxka[ontzia.getX()][ontzia.getY()].getEdukia() instanceof EtsaiEgoera) {
 			bistaEguneratu();
 			JokoKudeaketa.getJokoKudeaketa().amaituJokoa(false); // ← GALDU
 			return;
 		}
-		setEdukiaTracked(ontzia.getX(), ontzia.getY(), Edukia.EspazioOntzia);
+		setEdukiaTracked(ontzia.getX(), ontzia.getY(), new EspazioOntziaEgoera());
 		bistaEguneratu();
 	}
 
@@ -77,8 +80,8 @@ public class MatrizeEredua {
 		if (ontzia == null)
 			return;
 		Tiroa t = ontzia.tirokatu();
-		if (t.getY() > 0 && gelaxka[t.getX()][t.getY()].getEdukia() == Edukia.Hutsa) {
-			setEdukiaTracked(t.getX(), t.getY(), Edukia.Tiroa);
+		if (t.getY() > 0 && gelaxka[t.getX()][t.getY()].getEdukia() instanceof HutsaEgoera) {
+			setEdukiaTracked(t.getX(), t.getY(), new TiroaEgoera());
 			tiroak.add(t);
 		}
 		bistaEguneratu();
@@ -93,20 +96,20 @@ public class MatrizeEredua {
 			int x = t.getX();
 			int y = t.getY();
 			
-			if (gelaxka[x][y].getEdukia() == Edukia.Tiroa) {
-				setEdukiaTracked(x, y, Edukia.Hutsa);
+			if (gelaxka[x][y].getEdukia() instanceof TiroaEgoera) {
+				setEdukiaTracked(x, y, new HutsaEgoera());
 			}
 
 			t.mugituGora();
 			int berriaY = t.getY();
 
 			if (berriaY > 0) {
-				Edukia aurreanDagoena = gelaxka[x][berriaY].getEdukia();
-				if (aurreanDagoena == Edukia.Etsaia) {
-					setEdukiaTracked(x, berriaY, Edukia.Hutsa);
+				EdukiaEgoera aurreanDagoena = gelaxka[x][berriaY].getEdukia();
+				if (aurreanDagoena instanceof EtsaiEgoera) {
+					setEdukiaTracked(x, berriaY, new HutsaEgoera());
 					borratzekoak.add(t);
-				} else if (aurreanDagoena == Edukia.Hutsa) {
-					setEdukiaTracked(x, berriaY, Edukia.Tiroa);
+				} else if (aurreanDagoena instanceof HutsaEgoera) {
+					setEdukiaTracked(x, berriaY, new TiroaEgoera());
 				} else {
 					borratzekoak.add(t);
 				}
@@ -126,9 +129,9 @@ public class MatrizeEredua {
 		List<int[]> etsaiPosizioak = new ArrayList<>();
 		for (int x = 1; x < zabalera - 1; x++) {
 			for (int y = 1; y < altuera - 1; y++) {
-				if (gelaxka[x][y].getEdukia() == Edukia.Etsaia) {
+				if (gelaxka[x][y].getEdukia() instanceof EtsaiEgoera) {
 					etsaiPosizioak.add(new int[] { x, y });
-					setEdukiaTracked(x, y, Edukia.Hutsa);
+					setEdukiaTracked(x, y, new HutsaEgoera());
 				}
 			}
 		}
@@ -144,25 +147,26 @@ public class MatrizeEredua {
 				xBerria = p[0];
 				yBerria = p[1];
 			}
-			if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.Etsaia) {
+			if (gelaxka[xBerria][yBerria].getEdukia() instanceof EtsaiEgoera) {
 				xBerria = p[0];
 				yBerria = p[1];
 			}
-			if (gelaxka[xBerria][yBerria].getEdukia() == Edukia.EspazioOntzia) {
+			if (gelaxka[xBerria][yBerria].getEdukia() instanceof EspazioOntziaEgoera) {
 				bistaEguneratu();
 				JokoKudeaketa.getJokoKudeaketa().amaituJokoa(false); // ← GALDU
 				return;
 			}
-			setEdukiaTracked(xBerria, yBerria, Edukia.Etsaia);
+			setEdukiaTracked(xBerria, yBerria, new EtsaiEgoera());
 			if (xBerria != p[0] || yBerria != p[1]) {
-				gelaxkaCambiadasList.add(gelaxka[p[0]][p[1]]);
+				// Zerrenda berria erabiliz
+				aldatutakoGelaxkak.add(gelaxka[p[0]][p[1]]);
 			}
 		}
 
 		bistaEguneratu();
 	}
 
-	public void AldatuGelaxka(int x, int y, Edukia kolorea) {
+	public void AldatuGelaxka(int x, int y, EdukiaEgoera kolorea) {
 		if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
 			setEdukiaTracked(x, y, kolorea);
 			bistaEguneratu();
@@ -170,10 +174,11 @@ public class MatrizeEredua {
 	}
 
 	public void bistaEguneratu() {
-		for (Gelaxka g : gelaxkaCambiadasList) {
+		// Zerrenda berria iteratzeko eta garbitzeko
+		for (Gelaxka g : aldatutakoGelaxkak) {
 			g.notifikatu();
 		}
-		gelaxkaCambiadasList.clear();
+		aldatutakoGelaxkak.clear();
 	}
 
 	public void amaituJokoa() {
