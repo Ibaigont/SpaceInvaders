@@ -112,6 +112,10 @@ public class JokoKudeaketa extends Observable {
                 if (e instanceof EtsaiEgoera) {
                     for (int dx = -1; dx <= 1; dx++) {
                         for (int dy = -1; dy <= 1; dy++) {
+                        	
+                        	// HAU DA GEHITUTAKO LERROA:
+                        	if (dx == 0 && dy == 0) continue;
+                        	
                             int nx = x + dx;
                             int ny = y + dy;
                             if (nx >= 1 && nx < zabalera - 1 && ny >= 1 && ny < altuera - 1) {
