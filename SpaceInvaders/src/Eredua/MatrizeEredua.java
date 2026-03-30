@@ -40,7 +40,7 @@ public class MatrizeEredua {
 			}
 		}
 
-		ontzia = new JokalariOntzi(50, 55, 1, zabalera - 2, 1, altuera - 2);
+		ontzia = JokalariOntziFactory.getJokalariOntziFactory().sortuJokalariOntziMatrizetik(zabalera, altuera);
 		gelaxka[ontzia.getX()][ontzia.getY()].setEdukia(Edukia.EspazioOntzia);
 
 		etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
@@ -134,7 +134,7 @@ public class MatrizeEredua {
 		}
 
 		for (int[] p : etsaiPosizioak) {
-			Etsaiak e = new Etsaiak(p[0], p[1], 1, zabalera - 2, 1, altuera - 2);
+			Etsaiak e = EtsaiakFactory.getEtsaiakFactory().sortuEtsaiaPosiziotik(p, 1, zabalera - 2, 1, altuera - 2);
 			e.mugitu(Etsaiak.norabideRandom());
 
 			int xBerria = e.getX();
