@@ -27,6 +27,6 @@ public class Gelaxka extends Observable {
 
     public void notifikatu() {
         setChanged();
-        notifyObservers(edukia == null ? null : edukia.name());// ? if else bezalako bat da, egia bada = nill, bestela edikia.name();
+        notifyObservers(edukia == null ? null : edukia.name());// "?" if else bezalako bat da, egia bada = nill, bestela edikia.name();
     }
 }
