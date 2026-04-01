@@ -10,9 +10,6 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-          
-                    MatrizeEredua.getMatrizea();
-
                     LeihoNagusia frame = new LeihoNagusia();
                     frame.setVisible(true);
 

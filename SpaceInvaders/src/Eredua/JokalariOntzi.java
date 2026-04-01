@@ -1,19 +1,24 @@
 package Eredua;
 
+import java.util.List;
+
 public class JokalariOntzi extends Ontzia {
-
-    public JokalariOntzi(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
+	private OntziPortaera oPortaera;
+	protected JokalariOntzi(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY, OntziPortaera pForma) {
         super(hasieraX, hasieraY, minX, maxX, minY, maxY);
+        this.oPortaera = pForma; 
     }
+        
+    
 
-    public void tirokatu(Gelaxka[][] gelaxka) {
+    public List<Gelaxka> getFormaOsoa() {
+        return oPortaera.ontziMota(getX(), getY());
+    }
+    public Tiroa tirokatu() {
         int tx = getX();
         int ty = getY() - 1;
-
-        if (ty > 0 && gelaxka[tx][ty].getEdukia() == Edukia.Hutsa) {
-            gelaxka[tx][ty].setEdukia(Edukia.Tiroa);
-            update();
-        }
+        update();
+        return new Tiroa(tx, ty);
     }
 
 }

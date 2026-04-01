@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 @SuppressWarnings("deprecation")
 public class JokoKudeaketa extends Observable {
 
@@ -15,6 +16,7 @@ public class JokoKudeaketa extends Observable {
     private Timer jokoBegizta;
     private int tickKontagailua = 0;
     private Set<String> teclasPresionadas = new HashSet<>();
+    boolean tiroEginDa;
 
     private JokoKudeaketa() {}
 
@@ -23,11 +25,22 @@ public class JokoKudeaketa extends Observable {
     }
 
     public void teklaSakatu(String tekla) {
-        teclasPresionadas.add(tekla);
+        if (tekla.equals("TIROA")) {
+            
+			if (!tiroEginDa) { 
+                teclasPresionadas.add(tekla);
+                tiroEginDa = true; 
+            }
+        } else {
+            teclasPresionadas.add(tekla);
+        }
     }
 
     public void teklaAskatu(String tekla) {
         teclasPresionadas.remove(tekla);
+        if (tekla.equals("TIROA")) {
+            tiroEginDa = false;
+        }
     }
 
     public void hasieratuJokoa() {
@@ -65,6 +78,7 @@ public class JokoKudeaketa extends Observable {
 
         if (teclasPresionadas.contains("TIROA")) {
             MatrizeEredua.getMatrizea().tirokatu();
+            teclasPresionadas.remove("TIROA");
         }
 
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
@@ -87,21 +101,25 @@ public class JokoKudeaketa extends Observable {
 
         for (int x = 1; x < zabalera - 1; x++) {
             for (int y = 1; y < altuera - 1; y++) {
-                Edukia e = gelaxka[x][y].getEdukia();
-                if (e == Edukia.Etsaia) {
+                EdukiaEgoera e = gelaxka[x][y].getEdukia();
+                if (e instanceof EtsaiEgoera) {
                     anyEtsai = true;
                     if (y >= altuera - 2) {
                         amaituJokoa(false);
                         return;
                     }
                 }
-                if (e == Edukia.EspazioOntzia) {
+                if (e instanceof EtsaiEgoera) {
                     for (int dx = -1; dx <= 1; dx++) {
                         for (int dy = -1; dy <= 1; dy++) {
+                        	
+                        	// HAU DA GEHITUTAKO LERROA:
+                        	if (dx == 0 && dy == 0) continue;
+                        	
                             int nx = x + dx;
                             int ny = y + dy;
                             if (nx >= 1 && nx < zabalera - 1 && ny >= 1 && ny < altuera - 1) {
-                                if (gelaxka[nx][ny].getEdukia() == Edukia.Etsaia && ny == y) {
+                                if (gelaxka[nx][ny].getEdukia() instanceof EtsaiEgoera && ny == y) {
                                     amaituJokoa(false);
                                     return;
                                 }

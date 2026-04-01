@@ -20,10 +20,10 @@ public class GameOverPantaila extends JPanel {
 
     public void setMezua(boolean irabazi) {
         if (irabazi) {
-            mezuaTxartela.setText("IRABAZI DUZU!");
+            mezuaTxartela.setText("WINNER WINNER CHICKEN DINNER");
             mezuaTxartela.setForeground(Color.GREEN);
         } else {
-            mezuaTxartela.setText("GALDU DUZU!");
+            mezuaTxartela.setText("GALDU... Saiatu berriro!");
             mezuaTxartela.setForeground(Color.RED);
         }
     }

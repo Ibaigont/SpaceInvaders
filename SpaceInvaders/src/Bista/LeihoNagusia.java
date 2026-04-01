@@ -14,12 +14,12 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
     private JButton btnJolastu;
+    private GameOverPantaila irabaziPantaila;
+    private GameOverPantaila galduPantaila;
 
     private GelaxkaBista[][] bistaMatrizea = null;
 
     public LeihoNagusia() {
-        JokoKudeaketa.getJokoKudeaketa().addObserver(this);
-
         this.setTitle("Space Invaders");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,12 +32,19 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
 
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
-        kartaPanela.add(amaieraPanelaSortu("WINNER WINNER CHICKEN DINNER", Color.GREEN), "IRABAZI");
-        kartaPanela.add(amaieraPanelaSortu("GALDU... Saiatu berriro!", Color.RED), "GAMEOVER");
+        
+        irabaziPantaila = new GameOverPantaila();
+        galduPantaila = new GameOverPantaila();
+        kartaPanela.add(irabaziPantaila, "IRABAZI");
+        kartaPanela.add(galduPantaila, "GAMEOVER");
+        
         kartaPanela.setFocusable(false);
 
         this.add(kartaPanela);
         this.addKeyListener(this);
+        
+        
+        JokoKudeaketa.getJokoKudeaketa().addObserver(this);
     }
 
     @Override
@@ -51,9 +58,11 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
                 LeihoNagusia.this.requestFocusInWindow();
 
             } else if ("IRABAZI".equals(arg)) {
+                irabaziPantaila.setMezua(true);
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
 
             } else if ("GALDU".equals(arg)) {
+                galduPantaila.setMezua(false);
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
             }
         });
@@ -101,24 +110,11 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         return p;
     }
 
-    private JPanel amaieraPanelaSortu(String mezua, Color kolorea) {
-        JPanel p = new JPanel(new GridBagLayout());
-        p.setBackground(Color.BLACK);
-        JLabel label = new JLabel(mezua);
-        label.setForeground(kolorea);
-        label.setFont(new Font("Arial", Font.BOLD, 30));
-        p.add(label);
-        return p;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("JOLASTU".equals(e.getActionCommand())) {
             kartaDiseinua.show(kartaPanela, "JOKOA");
-            
-            new Thread(() -> {
-                JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
-            }, "Inicializa-Jokoa-Thread").start();
+            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
         }
     }
 
