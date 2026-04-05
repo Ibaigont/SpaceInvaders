@@ -33,6 +33,6 @@ public class Gelaxka extends Observable {
 
     public void notifikatu() {
         setChanged();
-        notifyObservers(edukia == null ? null : edukia.getIzena()); 
+        notifyObservers(this.edukia); 
     }
 }

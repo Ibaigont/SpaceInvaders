@@ -13,24 +13,31 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private JPanel kartaPanela;
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
-    private JButton btnJolastu;
+    
+    // Botoi berriak hautaketarako
+    private JButton btnBerdea;
+    private JButton btnGorria;
+    private JButton btnUrdina;
+    
     private GameOverPantaila irabaziPantaila;
     private GameOverPantaila galduPantaila;
 
     private GelaxkaBista[][] bistaMatrizea = null;
 
     public LeihoNagusia() {
-        this.setTitle("Space Invaders");
+        this.setTitle("Space Invaders - Aukeratu zure Ontzia");
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);
+        
         kartaDiseinua = new CardLayout();
         kartaPanela = new JPanel(kartaDiseinua);
 
         jokoPanelaAtala = JokoPanela.getJokoPanela();
         jokoPanelaAtala.setFocusable(false);
+        
+        // Hasierako panela kargatu
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
-
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
         
         irabaziPantaila = new GameOverPantaila();
@@ -42,7 +49,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
 
         this.add(kartaPanela);
         this.addKeyListener(this);
-        
         
         JokoKudeaketa.getJokoKudeaketa().addObserver(this);
     }
@@ -73,82 +79,100 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         p.setBackground(Color.BLACK);
         p.setFocusable(false);
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+
+        // LOGOA EDO IRUDIA
         java.net.URL imgURL = getClass().getResource("space_invaders.jpg");
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
-            int targetWidth = 350;
-            int w = icon.getIconWidth();
-            int h = icon.getIconHeight();
-            if (w > 0) {
-                int scaledHeight = (int) ((double) targetWidth * h / w);
-                Image scaled = icon.getImage().getScaledInstance(targetWidth, scaledHeight, Image.SCALE_SMOOTH);
-                icon = new ImageIcon(scaled);
-            }
-            JLabel label = new JLabel(icon);
+            Image scaled = icon.getImage().getScaledInstance(350, 200, Image.SCALE_SMOOTH);
+            JLabel label = new JLabel(new ImageIcon(scaled));
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(Box.createVerticalGlue());
             p.add(label);
-            p.add(Box.createVerticalStrut(10));
         } else {
-            // Irudiaren kargatzean arazoa badago
             JLabel label = new JLabel("SPACE INVADERS");
             label.setForeground(Color.GREEN);
-            label.setFont(new Font("Arial", Font.BOLD, 36));
+            label.setFont(new Font("Arial", Font.BOLD, 48));
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             p.add(Box.createVerticalGlue());
             p.add(label);
-            p.add(Box.createVerticalStrut(10));
         }
 
-        btnJolastu = new JButton("Jolastu");
-        btnJolastu.setFocusable(false);
-        btnJolastu.setActionCommand("JOLASTU");
-        btnJolastu.addActionListener(this);
-        btnJolastu.setAlignmentX(Component.CENTER_ALIGNMENT);
-        p.add(btnJolastu);
+        p.add(Box.createVerticalStrut(30));
+
+        // TESTUA
+        JLabel aukeratuText = new JLabel("AUKERATU ZURE ONTZIA JOLASTEKO:");
+        aukeratuText.setForeground(Color.WHITE);
+        aukeratuText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        p.add(aukeratuText);
+        p.add(Box.createVerticalStrut(20));
+
+        // BOTOI PANELA (Strategy hautaketa)
+        JPanel botoiPanela = new JPanel();
+        botoiPanela.setOpaque(false);
+        botoiPanela.setLayout(new FlowLayout());
+
+        btnBerdea = sortuBotoia("Berdea", Color.GREEN);
+        btnGorria = sortuBotoia("Gorria", Color.RED);
+        btnUrdina = sortuBotoia("Urdina", Color.BLUE);
+
+        botoiPanela.add(btnBerdea);
+        botoiPanela.add(btnGorria);
+        botoiPanela.add(btnUrdina);
+
+        p.add(botoiPanela);
         p.add(Box.createVerticalGlue());
+        
         return p;
+    }
+
+    // Botoiak sortzeko laguntzailea
+    private JButton sortuBotoia(String izena, Color c) {
+        JButton b = new JButton(izena);
+        b.setFocusable(false);
+        b.setBackground(c);
+        b.setForeground(Color.WHITE);
+        b.setFont(new Font("Arial", Font.BOLD, 14));
+        b.setActionCommand("JOLASTU_" + izena.toUpperCase());
+        b.addActionListener(this);
+        return b;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ("JOLASTU".equals(e.getActionCommand())) {
-            kartaDiseinua.show(kartaPanela, "JOKOA");
-            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa();
+        String cmd = e.getActionCommand();
+        
+        // "JOLASTU_BERDEA", "JOLASTU_GORRIA", etab.
+        if (cmd.startsWith("JOLASTU_")) {
+            String koloreaRaw = cmd.substring(8); // "BERDEA", "GORRIA"...
+            // Formatu egokia eman: "Berdea"
+            String kolorea = koloreaRaw.substring(0, 1) + koloreaRaw.substring(1).toLowerCase();
+
+            // Jokoa hasieratu aukeratutako kolorearekin
+            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(kolorea);
         }
     }
 
+    // TEKLATUAREN KONTROLA
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_LEFT)
-            JokoKudeaketa.getJokoKudeaketa().teklaSakatu("EZKERRA");
-        else if (code == KeyEvent.VK_RIGHT)
-            JokoKudeaketa.getJokoKudeaketa().teklaSakatu("ESKUINA");
-        else if (code == KeyEvent.VK_UP)
-            JokoKudeaketa.getJokoKudeaketa().teklaSakatu("GORA");
-        else if (code == KeyEvent.VK_DOWN)
-            JokoKudeaketa.getJokoKudeaketa().teklaSakatu("BEHERA");
-        else if (code == KeyEvent.VK_SPACE)
-            JokoKudeaketa.getJokoKudeaketa().teklaSakatu("TIROA");
+        if (code == KeyEvent.VK_LEFT) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("EZKERRA");
+        else if (code == KeyEvent.VK_RIGHT) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("ESKUINA");
+        else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("GORA");
+        else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("BEHERA");
+        else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("TIROA");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_LEFT)
-            JokoKudeaketa.getJokoKudeaketa().teklaAskatu("EZKERRA");
-        else if (code == KeyEvent.VK_RIGHT)
-            JokoKudeaketa.getJokoKudeaketa().teklaAskatu("ESKUINA");
-        else if (code == KeyEvent.VK_UP)
-            JokoKudeaketa.getJokoKudeaketa().teklaAskatu("GORA");
-        else if (code == KeyEvent.VK_DOWN)
-            JokoKudeaketa.getJokoKudeaketa().teklaAskatu("BEHERA");
-        else if (code == KeyEvent.VK_SPACE)
-            JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA");
+        if (code == KeyEvent.VK_LEFT) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("EZKERRA");
+        else if (code == KeyEvent.VK_RIGHT) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("ESKUINA");
+        else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("GORA");
+        else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("BEHERA");
+        else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA");
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    @Override public void keyTyped(KeyEvent e) {}
 }

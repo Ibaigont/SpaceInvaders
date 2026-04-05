@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 @SuppressWarnings("deprecation")
 public class JokoKudeaketa extends Observable {
 
@@ -26,8 +25,7 @@ public class JokoKudeaketa extends Observable {
 
     public void teklaSakatu(String tekla) {
         if (tekla.equals("TIROA")) {
-            
-			if (!tiroEginDa) { 
+            if (!tiroEginDa) { 
                 teclasPresionadas.add(tekla);
                 tiroEginDa = true; 
             }
@@ -43,14 +41,23 @@ public class JokoKudeaketa extends Observable {
         }
     }
 
-    public void hasieratuJokoa() {
-        jokoaHasita = true;
-        MatrizeEredua.getMatrizea().matrizeaSortu();
+    public void hasieratuJokoa(String pkol) {
+        // RESET GARRANTZITSUAK
+        this.jokoaHasita = true;
+        this.tickKontagailua = 0;
+        this.teclasPresionadas.clear();
+        this.tiroEginDa = false;
+
+        MatrizeEredua.getMatrizea().matrizeaSortu(pkol);
 
         setChanged();
         notifyObservers("MTRX_SORTUTA");
 
-        if (jokoBegizta != null) jokoBegizta.cancel();
+        if (jokoBegizta != null) {
+            jokoBegizta.cancel();
+            jokoBegizta.purge();
+        }
+        
         jokoBegizta = new Timer("JokoBegizta", true);
         jokoBegizta.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -92,52 +99,40 @@ public class JokoKudeaketa extends Observable {
     }
 
     public void egiaztatuAmaiera() {
+        // Ez begiratu ezer jokoa amaituta badago
         if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;
 
-        Gelaxka[][] gelaxka = MatrizeEredua.getMatrizea().getGelaxkak();
+        Gelaxka[][] gelaxkak = MatrizeEredua.getMatrizea().getGelaxkak();
         int zabalera = MatrizeEredua.getMatrizea().getZabalera();
         int altuera = MatrizeEredua.getMatrizea().getAltuera();
-        boolean anyEtsai = false;
+        boolean etsaiakBadaude = false;
 
         for (int x = 1; x < zabalera - 1; x++) {
             for (int y = 1; y < altuera - 1; y++) {
-                EdukiaEgoera e = gelaxka[x][y].getEdukia();
+                EdukiaEgoera e = gelaxkak[x][y].getEdukia();
                 if (e instanceof EtsaiEgoera) {
-                    anyEtsai = true;
+                    etsaiakBadaude = true;
+                    // BALDINTZA: Etsaia beheko mugaraino iritsi bada, GALDU
                     if (y >= altuera - 2) {
                         amaituJokoa(false);
                         return;
                     }
                 }
-                if (e instanceof EtsaiEgoera) {
-                    for (int dx = -1; dx <= 1; dx++) {
-                        for (int dy = -1; dy <= 1; dy++) {
-                        	
-                        	// HAU DA GEHITUTAKO LERROA:
-                        	if (dx == 0 && dy == 0) continue;
-                        	
-                            int nx = x + dx;
-                            int ny = y + dy;
-                            if (nx >= 1 && nx < zabalera - 1 && ny >= 1 && ny < altuera - 1) {
-                                if (gelaxka[nx][ny].getEdukia() instanceof EtsaiEgoera && ny == y) {
-                                    amaituJokoa(false);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
 
-        if (!anyEtsai) {
+        // BALDINTZA: Etsai guztiak hil badira, IRABAZI
+        if (!etsaiakBadaude) {
             amaituJokoa(true);
         }
     }
 
     public void amaituJokoa(boolean irabazi) {
         MatrizeEredua.getMatrizea().amaituJokoa();
-        if (jokoBegizta != null) jokoBegizta.cancel();
+        if (jokoBegizta != null) {
+            jokoBegizta.cancel();
+            jokoBegizta.purge();
+        }
         setChanged();
         notifyObservers(irabazi ? "IRABAZI" : "GALDU");
     }
@@ -149,6 +144,8 @@ public class JokoKudeaketa extends Observable {
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
                 if (observers[x][y] != null) {
+                    // Segurtasunagatik aurrekoak ezabatu lotura bikoitzik ez egoteko
+                    matrizea.getGelaxka(x, y).deleteObservers();
                     matrizea.getGelaxka(x, y).addObserver(observers[x][y]);
                 }
             }

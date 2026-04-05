@@ -24,6 +24,9 @@ public class JokoPanela extends JPanel {
 
    
     public void preparatuMatrizea(int zabalera, int altuera) {
+    	if (this.bistaMatrizea != null) {
+            return; 
+        }
     	bistaMatrizea = null;
         bistaMatrizea = new GelaxkaBista[zabalera][altuera];
         this.setLayout(new GridLayout(altuera, zabalera));
