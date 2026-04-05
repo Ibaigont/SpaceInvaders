@@ -20,8 +20,8 @@ public class MatrizeEredua {
     private JokalariOntzi ontzia;
     private boolean jokoaAmaitu = false;
     private List<Tiroa> tiroak = new ArrayList<>();
+    private List<EtsaiNodoa> etsaiakLista = new ArrayList<>();
 
-    // ERAIKITZAILEA: Hemen sortzen dira gelaxka guztiak behin bakarrik
     private MatrizeEredua() {
         this.gelaxka = new Gelaxka[zabalera][altuera];
         for (int x = 0; x < zabalera; x++) {
@@ -47,6 +47,7 @@ public class MatrizeEredua {
         this.jokoaAmaitu = false; 
         this.tiroak.clear();
         this.aldatutakoGelaxkak.clear();
+        this.etsaiakLista.clear(); 
 
         for (int x = 0; x < zabalera; x++) {
             for (int y = 0; y < altuera; y++) {
@@ -68,14 +69,30 @@ public class MatrizeEredua {
         etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
         int jarritakoEtsaiKop = 0;
         while (jarritakoEtsaiKop < etsaiKop) {
-            int rx = (int) (Math.random() * (zabalera - 2)) + 1;
-            if (gelaxka[rx][5].getEdukia() instanceof HutsaEgoera) {
-                gelaxka[rx][5].setEdukia(new EtsaiEgoera());
+            // -4 espazio nahikoa uzteko 2 pixeleko zabalera duen etsai batentzat
+            int rx = (int) (Math.random() * (zabalera - 4)) + 1; 
+            
+            // Konprobatu espazioa librea dagoen (4 pixeleko karratua)
+            if (gelaxka[rx][5].getEdukia() instanceof HutsaEgoera && 
+                gelaxka[rx+1][5].getEdukia() instanceof HutsaEgoera) {
+                
+                EtsaiNodoa etsaiBerria = new EtsaiNodoa();
+                // 4 pixelez osatutako etsaia sortu (2x2 karratua)
+                etsaiBerria.addElementu(new EtsaiHostoa(rx, 5));
+                etsaiBerria.addElementu(new EtsaiHostoa(rx + 1, 5));
+                etsaiBerria.addElementu(new EtsaiHostoa(rx, 6));
+                etsaiBerria.addElementu(new EtsaiHostoa(rx + 1, 6));
+                
+                etsaiakLista.add(etsaiBerria);
+                
+                // Matrizean islatu
+                for (Gelaxka g : etsaiBerria.getGelaxkak()) {
+                    gelaxka[g.getZabalera()][g.getAltuera()].setEdukia(new EtsaiEgoera());
+                }
                 jarritakoEtsaiKop++;
             }
         }
         
-        // Hasierako egoera bista guztian marraztu
         gelaxkaGuztiakNotifikatu();
     }
 
@@ -116,11 +133,11 @@ public class MatrizeEredua {
         int x = t.getX();
         int y = t.getY();
         if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
-        	EdukiaEgoera unekoEgoera = gelaxka[x][y].getEdukia();
-        	if (unekoEgoera instanceof HutsaEgoera || unekoEgoera instanceof EspazioOntziaEgoera) {
+            EdukiaEgoera unekoEgoera = gelaxka[x][y].getEdukia();
+            if (unekoEgoera instanceof HutsaEgoera || unekoEgoera instanceof EspazioOntziaEgoera) {
                 setEdukiaTracked(x, y, new TiroaEgoera());
                 tiroak.add(t);
-        	}
+            }
         }
         bistaEguneratu();
     }
@@ -143,6 +160,27 @@ public class MatrizeEredua {
             if (berriaY > 0) {
                 EdukiaEgoera aurreanDagoena = gelaxka[x][berriaY].getEdukia();
                 if (aurreanDagoena instanceof EtsaiEgoera) {
+                    
+                    EtsaiNodoa joDuenEtsaia = null;
+                    for (EtsaiNodoa e : etsaiakLista) {
+                        for (Gelaxka g : e.getGelaxkak()) {
+                            if (g.getZabalera() == x && g.getAltuera() == berriaY) {
+                                joDuenEtsaia = e;
+                                break;
+                            }
+                        }
+                        if (joDuenEtsaia != null) break;
+                    }
+
+                    if (joDuenEtsaia != null) {
+                        // Ezabatu etsai osoaren pixelak matrizetik
+                        for (Gelaxka g : joDuenEtsaia.getGelaxkak()) {
+                            setEdukiaTracked(g.getZabalera(), g.getAltuera(), new HutsaEgoera());
+                        }
+                        joDuenEtsaia.suntsitu();
+                        etsaiakLista.remove(joDuenEtsaia);
+                    }
+                    
                     setEdukiaTracked(x, berriaY, new HutsaEgoera());
                     borratzekoak.add(t);
                 } else if (aurreanDagoena instanceof HutsaEgoera) {
@@ -161,33 +199,57 @@ public class MatrizeEredua {
     public void etsaiakMugitu() {
         if (jokoaAmaitu) return;
 
-        List<int[]> etsaiPosizioak = new ArrayList<>();
-        for (int x = 1; x < zabalera - 1; x++) {
-            for (int y = 1; y < altuera - 1; y++) {
-                if (gelaxka[x][y].getEdukia() instanceof EtsaiEgoera) {
-                    etsaiPosizioak.add(new int[] { x, y });
-                    setEdukiaTracked(x, y, new HutsaEgoera());
+        for (EtsaiNodoa e : etsaiakLista) {
+            
+            for (Gelaxka g : e.getGelaxkak()) {
+                int px = g.getZabalera();
+                int py = g.getAltuera();
+                if (px > 0 && px < zabalera - 1 && py > 0 && py < altuera - 1) {
+                    setEdukiaTracked(px, py, new HutsaEgoera());
                 }
             }
-        }
 
-        for (int[] p : etsaiPosizioak) {
-            Etsaiak e = EtsaiakFactory.getEtsaiakFactory().sortuEtsaiaPosiziotik(p, 1, zabalera - 2, 1, altuera - 2);
-            e.mugitu(Etsaiak.norabideRandom());
-
-            int xBerria = e.getX();
-            int yBerria = e.getY();
-
-            if (xBerria <= 0 || xBerria >= zabalera - 1 || yBerria <= 0 || yBerria >= altuera - 1) {
-                xBerria = p[0]; yBerria = p[1];
-            }
+            String norabidea = Etsaiak.norabideRandom();
             
-            if (gelaxka[xBerria][yBerria].getEdukia() instanceof EspazioOntziaEgoera) {
-                bistaEguneratu();
-                JokoKudeaketa.getJokoKudeaketa().amaituJokoa(false);
-                return;
+            boolean mugimenduaBaimenduta = true;
+            for (Gelaxka g : e.getGelaxkak()) {
+                int px = g.getZabalera();
+                int py = g.getAltuera();
+                
+                int nx = px;
+                int ny = py;
+                if (norabidea.equals("EZKERRA")) nx--;
+                else if (norabidea.equals("ESKUINA")) nx++;
+                else if (norabidea.equals("BEHERA")) ny++;
+
+                if (nx <= 0 || nx >= zabalera - 1 || ny >= altuera - 1) {
+                    mugimenduaBaimenduta = false;
+                    break;
+                }
+                
+                if (gelaxka[nx][ny].getEdukia() instanceof EtsaiEgoera) {
+                    mugimenduaBaimenduta = false;
+                    break;
+                }
             }
-            setEdukiaTracked(xBerria, yBerria, new EtsaiEgoera());
+
+            if (mugimenduaBaimenduta) {
+                e.mugitu(norabidea);
+            }
+
+            for (Gelaxka g : e.getGelaxkak()) {
+                int px = g.getZabalera();
+                int py = g.getAltuera();
+
+                if (px > 0 && px < zabalera - 1 && py > 0 && py < altuera - 1) {
+                    if (gelaxka[px][py].getEdukia() instanceof EspazioOntziaEgoera) {
+                        bistaEguneratu();
+                        JokoKudeaketa.getJokoKudeaketa().amaituJokoa(false);
+                        return;
+                    }
+                    setEdukiaTracked(px, py, new EtsaiEgoera());
+                }
+            }
         }
         bistaEguneratu();
     }

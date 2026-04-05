@@ -1,4 +1,4 @@
-package Eredua;
+	package Eredua;
 import java.util.List;
 
 public interface TiroPortaera {

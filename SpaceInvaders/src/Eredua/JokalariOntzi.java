@@ -16,7 +16,12 @@ public class JokalariOntzi extends Ontzia {
     }
     public Tiroa tirokatu() {
         int tx = getX() + 1;
-        int ty = getY() -2 ;
+        
+        if (this.oPortaera instanceof FormaBerdea) {
+            tx = getX() + 2; 
+        }
+        
+        int ty = getY() - 2;
         update();
         return new Tiroa(tx, ty);
     }

@@ -28,7 +28,17 @@ public class JokalariOntziFactory {
     public JokalariOntzi sortuJokalariOntziMatrizetik(String kolorea, int zabalera, int altuera) {
         int hasieraX = zabalera / 2;
         int hasieraY = altuera - 5;
-        return sortuJokalariOntzia(kolorea, hasieraX, hasieraY, 1, zabalera - 2, 1, altuera - 2);
-    
+        
+        int maxX;
+        if (kolorea.equalsIgnoreCase("Berdea")) {
+            maxX = zabalera - 7; 
+        } else if (kolorea.equalsIgnoreCase("Gorria")) {
+            maxX = zabalera - 5; 
+        } else {
+            maxX = zabalera - 4; 
+        }
+        
+        return sortuJokalariOntzia(kolorea, hasieraX, hasieraY, 1, maxX, 1, altuera - 2);
     }
+    
 }

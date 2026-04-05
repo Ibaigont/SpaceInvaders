@@ -85,6 +85,7 @@ public class JokoKudeaketa extends Observable {
 
         if (teclasPresionadas.contains("TIROA")) {
             MatrizeEredua.getMatrizea().tirokatu();
+            teclasPresionadas.remove("TIROA"); 
         }
 
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
@@ -96,7 +97,6 @@ public class JokoKudeaketa extends Observable {
             tickKontagailua = 0;
         }
     }
-
     public void egiaztatuAmaiera() {
         // Ez begiratu ezer jokoa amaituta badago
         if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;
