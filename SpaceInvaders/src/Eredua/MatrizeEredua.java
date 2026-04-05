@@ -90,14 +90,12 @@ public class MatrizeEredua {
         if (ontzia == null || jokoaAmaitu) return;
         Color k = koloreaLortu(this.aukeratutakoKoloreaString);
 
-        // 1. Borratu uneko forma
         for (Gelaxka g : ontzia.getFormaOsoa()) {
             setEdukiaTracked(g.getZabalera(), g.getAltuera(), new HutsaEgoera());
         }
 
         ontzia.mugitu(norabidea);
 
-        // 2. Marraztu forma berria eta begiratu talkarik dagoen
         for (Gelaxka g : ontzia.getFormaOsoa()) {
             int x = g.getZabalera();
             int y = g.getAltuera();
@@ -115,9 +113,14 @@ public class MatrizeEredua {
     public void tirokatu() {
         if (ontzia == null || jokoaAmaitu) return;
         Tiroa t = ontzia.tirokatu();
-        if (t.getY() > 0 && gelaxka[t.getX()][t.getY()].getEdukia() instanceof HutsaEgoera) {
-            setEdukiaTracked(t.getX(), t.getY(), new TiroaEgoera());
-            tiroak.add(t);
+        int x = t.getX();
+        int y = t.getY();
+        if (x >= 0 && x < zabalera && y >= 0 && y < altuera) {
+        	EdukiaEgoera unekoEgoera = gelaxka[x][y].getEdukia();
+        	if (unekoEgoera instanceof HutsaEgoera || unekoEgoera instanceof EspazioOntziaEgoera) {
+                setEdukiaTracked(x, y, new TiroaEgoera());
+                tiroak.add(t);
+        	}
         }
         bistaEguneratu();
     }

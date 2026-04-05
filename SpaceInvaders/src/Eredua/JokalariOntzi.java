@@ -15,8 +15,8 @@ public class JokalariOntzi extends Ontzia {
         return oPortaera.ontziMota(getX(), getY());
     }
     public Tiroa tirokatu() {
-        int tx = getX();
-        int ty = getY() - 1;
+        int tx = getX() + 1;
+        int ty = getY() -2 ;
         update();
         return new Tiroa(tx, ty);
     }

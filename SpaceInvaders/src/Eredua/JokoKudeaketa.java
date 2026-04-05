@@ -85,7 +85,6 @@ public class JokoKudeaketa extends Observable {
 
         if (teclasPresionadas.contains("TIROA")) {
             MatrizeEredua.getMatrizea().tirokatu();
-            teclasPresionadas.remove("TIROA");
         }
 
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
@@ -144,7 +143,6 @@ public class JokoKudeaketa extends Observable {
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
                 if (observers[x][y] != null) {
-                    // Segurtasunagatik aurrekoak ezabatu lotura bikoitzik ez egoteko
                     matrizea.getGelaxka(x, y).deleteObservers();
                     matrizea.getGelaxka(x, y).addObserver(observers[x][y]);
                 }
