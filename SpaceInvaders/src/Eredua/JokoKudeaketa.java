@@ -87,7 +87,10 @@ public class JokoKudeaketa extends Observable {
             MatrizeEredua.getMatrizea().tirokatu();
             teclasPresionadas.remove("TIROA"); 
         }
-
+        if (teclasPresionadas.contains("TIROA_ALDATU")) {
+			MatrizeEredua.getMatrizea().ontziarenTiroaAldatu();
+			teclasPresionadas.remove("TIROA_ALDATU"); 
+		}
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
 
         tickKontagailua++;

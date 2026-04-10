@@ -162,6 +162,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("GORA");
         else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("BEHERA");
         else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("TIROA");
+        else if (code == KeyEvent.VK_M) JokoKudeaketa.getJokoKudeaketa().teklaSakatu("TIROA_ALDATU");
     }
 
     @Override
@@ -172,6 +173,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("GORA");
         else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("BEHERA");
         else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA");
+         else if (code == KeyEvent.VK_M) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA_ALDATU");
     }
 
     @Override public void keyTyped(KeyEvent e) {}
