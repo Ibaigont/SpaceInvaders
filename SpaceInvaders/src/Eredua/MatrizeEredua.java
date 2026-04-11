@@ -64,31 +64,22 @@ public class MatrizeEredua {
         
         for (Gelaxka gForma : ontzia.getFormaOsoa()) {
             setEdukiaTracked(gForma.getZabalera(), gForma.getAltuera(), new EspazioOntziaEgoera(k));
-        }
-
+        }      
         etsaiKop = (int) Math.floor(Math.random() * (etsaiMax - etsaiMin + 1) + etsaiMin);
         int jarritakoEtsaiKop = 0;
         while (jarritakoEtsaiKop < etsaiKop) {
-            int rx = (int) (Math.random() * (zabalera - 4)) + 1; 
-            
+            int rx = (int) (Math.random() * (zabalera - 4)) + 1;             
             if (gelaxka[rx][5].getEdukia() instanceof HutsaEgoera && 
-                gelaxka[rx+1][5].getEdukia() instanceof HutsaEgoera) {
-                
-                EtsaiNodoa etsaiBerria = new EtsaiNodoa();
-                etsaiBerria.addElementu(new EtsaiHostoa(rx, 5));
-                etsaiBerria.addElementu(new EtsaiHostoa(rx + 1, 5));
-                etsaiBerria.addElementu(new EtsaiHostoa(rx, 6));
-                etsaiBerria.addElementu(new EtsaiHostoa(rx + 1, 6));
-                
+                gelaxka[rx+1][5].getEdukia() instanceof HutsaEgoera) {                
+                int formaRandom = (int) (Math.random() * 4);                
+                EtsaiNodoa etsaiBerria = (EtsaiNodoa) EtsaiFactory.getEtsaiFactory().createEtsaia(formaRandom, rx, 5);
                 etsaiakLista.add(etsaiBerria);
-                
                 for (Gelaxka g : etsaiBerria.getGelaxkak()) {
                     gelaxka[g.getZabalera()][g.getAltuera()].setEdukia(new EtsaiEgoera());
                 }
                 jarritakoEtsaiKop++;
             }
         }
-        
         gelaxkaGuztiakNotifikatu();
     }
 
@@ -207,6 +198,7 @@ public class MatrizeEredua {
         tiroak.removeAll(borratzekoak);
         bistaEguneratu();
     }
+    
     private String norabideRandom() {
         int r = (int) (Math.random() * 3);
         if (r == 0)
