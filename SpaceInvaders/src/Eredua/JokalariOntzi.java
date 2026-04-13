@@ -35,6 +35,11 @@ public class JokalariOntzi extends Ontzia {
             unekoTiroIndizea = 0; 
         }
     }
+    public TiroPortaera getTiroPortaera() {
+   
+        return tiroAukerak.get(unekoTiroIndizea); 
+    }
+    
 
     public TiroElementua tirokatu() {
         int tx = getX() + 1;

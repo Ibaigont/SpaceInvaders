@@ -12,7 +12,11 @@ class TiroBakuna implements TiroPortaera {
 }
 
 class TiroGezia implements TiroPortaera {
-    private int munizioa = 30;
+    private int munizioa = 10;
+   
+    public int getMunizioa() {
+        return this.munizioa;
+    }
 
     @Override
     public TiroElementua TiroMota(int x, int y) {
@@ -30,7 +34,11 @@ class TiroGezia implements TiroPortaera {
 }
 
 class TiroErronboa implements TiroPortaera {
-    private int munizioa = 20;
+    private int munizioa = 3;
+    
+    public int getMunizioa() {
+        return this.munizioa;
+    }
 
     @Override
     public TiroElementua TiroMota(int x, int y) {
@@ -55,4 +63,6 @@ class TiroErronboa implements TiroPortaera {
         }
         return null;
     }
+
+	
 }

@@ -129,6 +129,7 @@ public class MatrizeEredua {
                 }
             }
             tiroak.add(t);
+            JokoKudeaketa.getJokoKudeaketa().tiroaKontatuEtaBerritu();
         }
         bistaEguneratu();
     }
@@ -264,6 +265,27 @@ public class MatrizeEredua {
             }
         }
         bistaEguneratu();
+    }
+    public String getUnekoMunizioaTestua() {
+        if (ontzia == null) return "0";
+        
+        TiroPortaera t = ontzia.getTiroPortaera(); 
+        
+
+        if (t instanceof TiroGezia) {
+            return String.valueOf(((TiroGezia) t).getMunizioa());
+        } 
+        
+        if (t instanceof TiroErronboa) {
+            return String.valueOf(((TiroErronboa) t).getMunizioa());
+        }
+        
+      
+        if (t instanceof TiroBakuna) {
+            return "∞";
+        }
+        
+        return "0";
     }
 
     public void bistaEguneratu() {

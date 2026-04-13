@@ -16,6 +16,7 @@ public class JokoKudeaketa extends Observable {
     private int tickKontagailua = 0;
     private Set<String> teclasPresionadas = new HashSet<>();
     boolean tiroEginDa;
+    private int tiroKopurua;
 
     private JokoKudeaketa() {}
 
@@ -47,6 +48,7 @@ public class JokoKudeaketa extends Observable {
         this.tickKontagailua = 0;
         this.teclasPresionadas.clear();
         this.tiroEginDa = false;
+        this.tiroKopurua = 0;
 
         MatrizeEredua.getMatrizea().matrizeaSortu(pkol);
 
@@ -127,6 +129,16 @@ public class JokoKudeaketa extends Observable {
         if (!etsaiakBadaude) {
             amaituJokoa(true);
         }
+    }
+    public void berrituBistakoDatuak() {
+        String munizioa = MatrizeEredua.getMatrizea().getUnekoMunizioaTestua();
+        Bista.JokoPanela.getJokoPanela().eguneratuInfo(this.tiroKopurua, munizioa);
+    }
+
+    // Tiro bat egitean deituko dugu kontagailua igotzeko
+    public void tiroaKontatuEtaBerritu() {
+        this.tiroKopurua++;
+        berrituBistakoDatuak();
     }
 
     public void amaituJokoa(boolean irabazi) {
