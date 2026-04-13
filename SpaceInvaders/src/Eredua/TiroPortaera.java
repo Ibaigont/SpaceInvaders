@@ -12,7 +12,7 @@ class TiroBakuna implements TiroPortaera {
 }
 
 class TiroGezia implements TiroPortaera {
-    private int munizioa = 10;
+    private int munizioa = 30;
    
     public int getMunizioa() {
         return this.munizioa;
@@ -34,7 +34,7 @@ class TiroGezia implements TiroPortaera {
 }
 
 class TiroErronboa implements TiroPortaera {
-    private int munizioa = 3;
+    private int munizioa = 20;
     
     public int getMunizioa() {
         return this.munizioa;
