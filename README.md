@@ -7,20 +7,20 @@ Sprint honetan jokoaren oinarrizko logika, MVC arkitektura eta entitate nagusiak
 
 ### ✅ Atazen Zerrenda (Erabiltzaile Istorioak - EI)
 
-- [ ] **EI1: Espazio-matrizea hasieratu**
+- [x] **EI1: Espazio-matrizea hasieratu**
   - Jokoaren eremua definituko duen matrizea sortu.
 
-- [ ] **EI2: Pixel bakarreko espaziontzia inplementatu**
-  - [ ] Mugimendua.
-  - [ ] Pixel bakarreko tiroa.
+- [x] **EI2: Pixel bakarreko espaziontzia inplementatu**
+  - [x] Mugimendua.
+  - [x] Pixel bakarreko tiroa.
 
-- [ ] **EI3: Pixel bakarreko etsaiak inplementatu**
-  - [ ] Etsaien mugimendua.
+- [x] **EI3: Pixel bakarreko etsaiak inplementatu**
+  - [x] Etsaien mugimendua.
 
-- [ ] **EI4: Hasierako panela sortu**
+- [x] **EI4: Hasierako panela sortu**
   - Jokoaren sarrerako menua.
 
-- [ ] **EI5: MVC (Model-View-Controller) aplikatu**
+- [x] **EI5: MVC (Model-View-Controller) aplikatu**
   - Kodea arkitektura egokian berregituratu.
 
 ---
