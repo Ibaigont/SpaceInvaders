@@ -34,7 +34,7 @@ class TiroGezia implements TiroPortaera {
 }
 
 class TiroErronboa implements TiroPortaera {
-    private int munizioa = 20;
+    private int munizioa = 20; 
     
     public int getMunizioa() {
         return this.munizioa;

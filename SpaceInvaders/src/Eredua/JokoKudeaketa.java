@@ -101,6 +101,7 @@ public class JokoKudeaketa extends Observable {
             egiaztatuAmaiera();
             tickKontagailua = 0;
         }
+        berrituBistakoDatuak();
     }
     public void egiaztatuAmaiera() {
         // Ez begiratu ezer jokoa amaituta badago
