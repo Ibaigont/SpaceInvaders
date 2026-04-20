@@ -22,7 +22,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private GameOverPantaila irabaziPantaila;
     private GameOverPantaila galduPantaila;
 
-    private GelaxkaBista[][] bistaMatrizea = null;
 
     public LeihoNagusia() {
         this.setTitle("Space Invaders - Aukeratu zure Ontzia");
@@ -58,8 +57,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         SwingUtilities.invokeLater(() -> {
             if ("MTRX_SORTUTA".equals(arg)) {
                 jokoPanelaAtala.preparatuMatrizea(100, 60);
-                bistaMatrizea = jokoPanelaAtala.getBistaMatrizea();
-                JokoKudeaketa.getJokoKudeaketa().registratuObservers(bistaMatrizea, 100, 60);
+                Eredua.MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
                 kartaDiseinua.show(kartaPanela, "JOKOA");
                 LeihoNagusia.this.requestFocusInWindow();
 

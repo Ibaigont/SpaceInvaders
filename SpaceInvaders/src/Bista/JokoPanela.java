@@ -61,6 +61,7 @@ public class JokoPanela extends JPanel {
                 GelaxkaBista g = new GelaxkaBista();
                 this.bistaMatrizea[x][y] = g;
                 matrizePanela.add(g);
+                Eredua.MatrizeEredua.getMatrizea().getGelaxka(x, y).addObserver(g);
             }
         }
         
