@@ -1,7 +1,6 @@
 package Eredua;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Timer;
@@ -154,16 +153,5 @@ public class JokoKudeaketa extends Observable {
 
     public boolean isJokoaHasita() { return jokoaHasita; }
 
-    public void registratuObservers(Observer[][] observers, int zabalera, int altuera) {
-        MatrizeEredua matrizea = MatrizeEredua.getMatrizea();
-        for (int y = 0; y < altuera; y++) {
-            for (int x = 0; x < zabalera; x++) {
-                if (observers[x][y] != null) {
-                    matrizea.getGelaxka(x, y).deleteObservers();
-                    matrizea.getGelaxka(x, y).addObserver(observers[x][y]);
-                }
-            }
-        }
-        matrizea.gelaxkaGuztiakNotifikatu();
-    }
+
 }
