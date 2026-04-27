@@ -49,5 +49,7 @@ public abstract class JokalariOntzi extends Ontzia implements JokalariElementua 
         int ty = getY() - 2;
         return tiroa.TiroMota(tx, ty);
     }
-	protected abstract TiroPortaera getTiroPortaera();
+	public TiroPortaera getTiroPortaera() {
+		return this.tiroa;
+	}
 }

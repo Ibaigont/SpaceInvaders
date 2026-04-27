@@ -38,9 +38,4 @@ public class FormaGorria extends JokalariOntzi {
     }
         
     
-	@Override
-	protected TiroPortaera getTiroPortaera() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }	

@@ -33,13 +33,6 @@ public class FormaBerdea extends JokalariOntzi {
             tiroa = new TiroBakuna();
         }
     }
-	@Override
-	protected TiroPortaera getTiroPortaera() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 
 
