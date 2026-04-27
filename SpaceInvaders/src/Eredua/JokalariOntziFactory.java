@@ -32,10 +32,10 @@ public class JokalariOntziFactory {
         int minY;
         
         if (kolorea.equalsIgnoreCase("Berdea")) {
-            maxX = zabalera - 7;
+            maxX = zabalera - 6;
             minY = 3;
         } else if (kolorea.equalsIgnoreCase("Gorria")) {
-            maxX = zabalera - 5;
+            maxX = zabalera - 4;
             minY = 3;
         } else {
             maxX = zabalera - 4;
