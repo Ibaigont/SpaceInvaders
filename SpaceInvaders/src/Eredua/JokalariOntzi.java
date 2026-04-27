@@ -2,23 +2,25 @@ package Eredua;
 
 import java.util.List;
 
-public class JokalariOntzi extends Ontzia implements JokalariElementua {
-    private OntziPortaera oPortaera;
-    private TiroPortaera tiroa;
-    private JokalariNodoa egitura;
+public abstract class JokalariOntzi extends Ontzia implements JokalariElementua {
+    protected TiroPortaera tiroa;
+    protected JokalariNodoa egitura;
 
-    protected JokalariOntzi(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY, OntziPortaera pForma) {
+    protected JokalariOntzi(int hasieraX, int hasieraY, int minX, int maxX, int minY, int maxY) {
         super(hasieraX, hasieraY, minX, maxX, minY, maxY);
-        oPortaera = pForma; 
-        tiroa = new TiroBakuna(); 
-        egitura = new JokalariNodoa();
-        List<Gelaxka> hasierakoGelaxkak = oPortaera.kalkulatuFormarenGelaxkak(hasieraX, hasieraY);
+        this.tiroa = new TiroBakuna();
+        this.egitura = new JokalariNodoa();
+        
+
+        List<Gelaxka> hasierakoGelaxkak = kalkulatuForma(hasieraX, hasieraY);
         
         for (Gelaxka g : hasierakoGelaxkak) {
             JokalariHostoa hostoa = new JokalariHostoa(g.getZabalera(), g.getAltuera());
-             egitura.addElementu(hostoa);
+            egitura.addElementu(hostoa);
         }
     }
+    protected abstract List<Gelaxka> kalkulatuForma(int x, int y);
+    public abstract int getTiroZentroX();
 
     @Override
     public void mugitu(String norabidea) {
@@ -31,47 +33,21 @@ public class JokalariOntzi extends Ontzia implements JokalariElementua {
     }
 
     @Override
-    public void suntsitu() {
-    	egitura.suntsitu();
-    }
-
-    @Override
-    public List<Gelaxka> getGelaxkak() {
-        return egitura.getGelaxkak();
-    }
-
+    public void suntsitu() { egitura.suntsitu(); }
+    
     public List<Gelaxka> getFormaOsoa() {
         return getGelaxkak(); 
     }
+
+    @Override
+    public List<Gelaxka> getGelaxkak() { return egitura.getGelaxkak(); }
     
-    public void aldatuTiroMota() {
-        if (tiroa instanceof TiroBakuna) {
-            if (oPortaera instanceof FormaBerdea) {
-                tiroa = new TiroGezia();
-            } else if (oPortaera instanceof FormaUrdina) {
-                tiroa = new TiroErronboa();
-            } else if (oPortaera instanceof FormaGorria) {
-                tiroa = new TiroGezia();
-            }
-        } else if (tiroa instanceof TiroGezia) {
-            if (oPortaera instanceof FormaGorria) {
-                tiroa = new TiroErronboa();
-            } else {
-                tiroa = new TiroBakuna();
-            }
-        } else {
-            tiroa = new TiroBakuna();
-        }
-    }
-    
-    public TiroPortaera getTiroPortaera() {
-        return tiroa; 
-    }
-    
+    public abstract void aldatuTiroMota();
+
     public TiroElementua tirokatu() {
-        int tx = oPortaera.getTiroZentroX(getX()); 
+        int tx = getTiroZentroX(); 
         int ty = getY() - 2;
-        
         return tiroa.TiroMota(tx, ty);
     }
+	protected abstract TiroPortaera getTiroPortaera();
 }

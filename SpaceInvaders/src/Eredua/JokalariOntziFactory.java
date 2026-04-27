@@ -14,25 +14,23 @@ public class JokalariOntziFactory {
         return nireJokalariOntziFactory;
     }
 
+    
     public JokalariOntzi sortuJokalariOntzia(String kolorea, int x, int y, int minX, int maxX, int minY, int maxY) {
-        OntziPortaera forma;
-
         if (kolorea.equalsIgnoreCase("Berdea")) {
-            forma = new FormaBerdea();
+            return new FormaBerdea(x, y, minX, maxX, minY, maxY);
         } else if (kolorea.equalsIgnoreCase("Gorria")) {
-            forma = new FormaGorria();
+            return new FormaGorria(x, y, minX, maxX, minY, maxY);
         } else {
-            forma = new FormaUrdina();
+            return new FormaUrdina(x, y, minX, maxX, minY, maxY);
         }
-        return new JokalariOntzi(x, y, minX, maxX, minY, maxY, forma);
     }
 
     public JokalariOntzi sortuJokalariOntziMatrizetik(String kolorea, int zabalera, int altuera) {
         int hasieraX = zabalera / 2;
         int hasieraY = altuera - 5;
-
         int maxX;
         int minY;
+        
         if (kolorea.equalsIgnoreCase("Berdea")) {
             maxX = zabalera - 7;
             minY = 3;
@@ -43,8 +41,6 @@ public class JokalariOntziFactory {
             maxX = zabalera - 4;
             minY = 2;
         }
-
         return sortuJokalariOntzia(kolorea, hasieraX, hasieraY, 1, maxX, minY, altuera - 2);
     }
-
 }

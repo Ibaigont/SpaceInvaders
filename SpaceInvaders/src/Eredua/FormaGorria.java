@@ -3,9 +3,13 @@ package Eredua;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormaGorria implements OntziPortaera {
+public class FormaGorria extends JokalariOntzi {
+	
+	  public FormaGorria(int x, int y, int minX, int maxX, int minY, int maxY) {
+	        super(x, y, minX, maxX, minY, maxY);
+	    }
     @Override
-    public List<Gelaxka> kalkulatuFormarenGelaxkak(int x, int y) {
+    public List<Gelaxka> kalkulatuForma(int x, int y) {
         List<Gelaxka> formak = new ArrayList<>();
         for (int i = 0; i < 3; i++) formak.add(new Gelaxka(x + i, y));
         for (int i = 0; i < 3; i++) formak.add(new Gelaxka(x + i, y - 1));
@@ -15,7 +19,28 @@ public class FormaGorria implements OntziPortaera {
     }
 
     @Override
-    public int getTiroZentroX(int x) {
-        return x + 1;
+    public int getTiroZentroX() {
+        return getX() +1;
     }
+    @Override
+    public void aldatuTiroMota() {
+        if (this.tiroa instanceof TiroBakuna) {
+            this.tiroa = new TiroGezia();
+        } 
+
+        else if (this.tiroa instanceof TiroGezia) {
+            this.tiroa = new TiroErronboa();
+        } 
+
+        else {
+            this.tiroa = new TiroBakuna();
+        }
+    }
+        
+    
+	@Override
+	protected TiroPortaera getTiroPortaera() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }	
