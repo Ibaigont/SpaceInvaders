@@ -16,25 +16,19 @@ public class JokalariNodoa implements JokalariElementua {
 
     @Override
     public void mugitu(String norabidea) {
-        for (JokalariElementua e : osagaiak) {
-            e.mugitu(norabidea);
-        }
+        osagaiak.forEach(e -> e.mugitu(norabidea));
     }
 
     @Override
     public void suntsitu() {
-        for (JokalariElementua e : osagaiak) {
-            e.suntsitu();
-        }
+        osagaiak.forEach(JokalariElementua::suntsitu);
         osagaiak.clear();
     }
 
     @Override
     public List<Gelaxka> getGelaxkak() {
         List<Gelaxka> jokalariOsoarenGelaxkak = new ArrayList<>();
-        for (JokalariElementua e : osagaiak) {
-            jokalariOsoarenGelaxkak.addAll(e.getGelaxkak());
-        }
+        osagaiak.forEach(e -> jokalariOsoarenGelaxkak.addAll(e.getGelaxkak()));
         return jokalariOsoarenGelaxkak;
     }
 }

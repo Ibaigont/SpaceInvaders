@@ -41,6 +41,8 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         
         irabaziPantaila = new GameOverPantaila();
         galduPantaila = new GameOverPantaila();
+        irabaziPantaila.setActionListener(this);
+        galduPantaila.setActionListener(this);
         kartaPanela.add(irabaziPantaila, "IRABAZI");
         kartaPanela.add(galduPantaila, "GAMEOVER");
         
@@ -145,9 +147,14 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
             String koloreaRaw = cmd.substring(8); // "BERDEA", "GORRIA"...
             // Formatu egokia eman: "Berdea"
             String kolorea = koloreaRaw.substring(0, 1) + koloreaRaw.substring(1).toLowerCase();
-
             // Jokoa hasieratu aukeratutako kolorearekin
             JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(kolorea);
+        } 
+        else if (cmd.equals("BERRIRO")) {
+            kartaDiseinua.show(kartaPanela, "HASIERA");
+        } 
+        else if (cmd.equals("IRTEN")) {
+            System.exit(0);
         }
     }
 

@@ -21,14 +21,12 @@ public class FormaBerdea extends JokalariOntzi {
 
     @Override
     public int getTiroZentroX() {
-        return getX() +1 ;
+        return getX() + 2 ;
     }
     @Override
     public void aldatuTiroMota() {
         if (tiroa instanceof TiroBakuna) {
             tiroa = new TiroGezia();
-        } else if (tiroa instanceof TiroGezia) {
-            tiroa = new TiroErronboa();
         } else {
             tiroa = new TiroBakuna();
         }

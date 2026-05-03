@@ -289,9 +289,7 @@ public class MatrizeEredua {
     }
 
     public void bistaEguneratu() {
-        for (Gelaxka g : aldatutakoGelaxkak) {
-            g.notifikatu();
-        }
+        aldatutakoGelaxkak.forEach(Gelaxka::notifikatu);
         aldatutakoGelaxkak.clear();
     }
 

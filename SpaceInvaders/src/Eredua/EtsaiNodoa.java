@@ -16,25 +16,19 @@ public class EtsaiNodoa implements EtsaiElementua {
 
     @Override
     public void mugitu(String norabidea) {
-        for (EtsaiElementua e : osagaiak) {
-            e.mugitu(norabidea);
-        }
+        osagaiak.forEach(e -> e.mugitu(norabidea));
     }
 
     @Override
     public void suntsitu() {
-        for (EtsaiElementua e : osagaiak) {
-            e.suntsitu();
-        }
+        osagaiak.forEach(EtsaiElementua::suntsitu);
         osagaiak.clear();
     }
 
     @Override
     public List<Gelaxka> getGelaxkak() {
         List<Gelaxka> etsaiOsoarenGelaxkak = new ArrayList<>();
-        for (EtsaiElementua e : osagaiak) {
-            etsaiOsoarenGelaxkak.addAll(e.getGelaxkak());
-        }
+        osagaiak.forEach(e -> etsaiOsoarenGelaxkak.addAll(e.getGelaxkak()));
         return etsaiOsoarenGelaxkak;
     }
 }

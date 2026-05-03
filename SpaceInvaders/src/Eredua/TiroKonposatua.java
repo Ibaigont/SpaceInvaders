@@ -12,17 +12,13 @@ public class TiroKonposatua implements TiroElementua {
 
     @Override
     public void mugituGora() {
-        for (TiroElementua e : osagaiak) {
-            e.mugituGora(); 
-        }
+        osagaiak.forEach(TiroElementua::mugituGora);
     }
 
     @Override
     public List<TiroPixela> getPixelak() {
         List<TiroPixela> l = new ArrayList<>();
-        for (TiroElementua e : osagaiak) {
-            l.addAll(e.getPixelak());
-        }
+        osagaiak.forEach(e -> l.addAll(e.getPixelak()));
         return l;
     }
 }
