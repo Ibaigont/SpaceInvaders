@@ -86,7 +86,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         p.setFocusable(false);
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
-        // LOGOA EDO IRUDIA (Recuperado)
         java.net.URL imgURL = getClass().getResource("space_invaders.jpg");
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);

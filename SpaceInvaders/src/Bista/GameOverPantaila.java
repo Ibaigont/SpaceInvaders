@@ -1,31 +1,32 @@
 package Bista;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
-import javax.swing.SwingConstants;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.net.URL;
 
 public class GameOverPantaila extends JPanel {
 
     private JLabel mezuaTxartela;
     private JButton btnBerriro;
     private JButton btnIrten;
+    
+    private BufferedImage irudiFondoa;
+    private boolean irabaziDua = false;
 
     public GameOverPantaila() {
-        this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout());
-
+        
+        
         mezuaTxartela = new JLabel("", SwingConstants.CENTER);
         mezuaTxartela.setFont(new Font("Arial", Font.BOLD, 36));
         this.add(mezuaTxartela, BorderLayout.CENTER);
 
         JPanel botoiPanela = new JPanel();
-        botoiPanela.setBackground(Color.BLACK);
+        botoiPanela.setOpaque(false); 
         botoiPanela.setLayout(new FlowLayout());
 
         btnBerriro = new JButton("Jokatu Berriro");
@@ -40,13 +41,45 @@ public class GameOverPantaila extends JPanel {
         this.add(botoiPanela, BorderLayout.SOUTH);
     }
 
+
+    private void cargarImagenFondo(String archivo) {
+        try {
+   
+            URL imageURL = getClass().getResource(archivo);
+            if (imageURL != null) {
+                irudiFondoa = ImageIO.read(imageURL);
+            } else {
+                System.err.println("No se encontró el archivo: " + archivo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setMezua(boolean irabazi) {
+        this.irabaziDua = irabazi;
+        
         if (irabazi) {
-            mezuaTxartela.setText("WINNER WINNER CHICKEN DINNER");
-            mezuaTxartela.setForeground(Color.GREEN);
+            cargarImagenFondo("Winner.png"); 
+            mezuaTxartela.setText(""); 
         } else {
-            mezuaTxartela.setText("GALDU... Saiatu berriro!");
-            mezuaTxartela.setForeground(Color.RED);
+            cargarImagenFondo("GameOver.png");
+            mezuaTxartela.setText(""); 
+        }
+        
+        this.revalidate();
+        this.repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        if (irudiFondoa != null) {
+            g.drawImage(irudiFondoa, 0, 0, getWidth(), getHeight(), this);
+        } else {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
         }
     }
 
