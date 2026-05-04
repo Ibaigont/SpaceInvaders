@@ -2,6 +2,7 @@ package Bista;
 
 import javax.swing.*;
 import Eredua.JokoKudeaketa;
+import Eredua.MatrizeEredua;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Observable;
@@ -17,6 +18,9 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     private JButton btnBerdea;
     private JButton btnGorria;
     private JButton btnUrdina;
+    private JButton btnPartidaNormala;
+    private JButton btnMugagabe;
+    private JLabel modoSeleccionadoLabel;
     
     private GameOverPantaila irabaziPantaila;
     private GameOverPantaila galduPantaila;
@@ -57,7 +61,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     @Override
     public void update(Observable o, Object arg) {
         if ("MTRX_SORTUTA".equals(arg)) {
-           
             Timer pausaEstetikoa = new Timer(2000, e -> {
                 SwingUtilities.invokeLater(() -> {
                     Eredua.MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
@@ -69,12 +72,14 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
             pausaEstetikoa.start();
         } else if ("IRABAZI".equals(arg)) {
             SwingUtilities.invokeLater(() -> {
-                irabaziPantaila.setMezua(true);
+                int puntu = MatrizeEredua.getMatrizea().getPuntuazioa();
+                irabaziPantaila.setMezua(true, puntu);
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
             });
         } else if ("GALDU".equals(arg)) {
             SwingUtilities.invokeLater(() -> {
-                galduPantaila.setMezua(false);
+                int puntu = MatrizeEredua.getMatrizea().getPuntuazioa();
+                galduPantaila.setMezua(false, puntu);
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
             });
         }
@@ -104,14 +109,37 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         }
         p.add(Box.createVerticalStrut(30));
 
-        // TESTUA
+        JPanel modoPanela = new JPanel();
+        modoPanela.setOpaque(false);
+        modoPanela.setLayout(new FlowLayout());
+        btnPartidaNormala = new JButton("Partida 1");
+        btnPartidaNormala.setFocusable(false);
+        btnPartidaNormala.setBackground(Color.GRAY);
+        btnPartidaNormala.setForeground(Color.WHITE);
+        btnPartidaNormala.setActionCommand("NORMALA");
+        btnPartidaNormala.addActionListener(this);
+        btnMugagabe = new JButton("Mugagabea");
+        btnMugagabe.setFocusable(false);
+        btnMugagabe.setBackground(Color.GRAY);
+        btnMugagabe.setForeground(Color.WHITE);
+        btnMugagabe.setActionCommand("MUGAGABE");
+        btnMugagabe.addActionListener(this);
+        modoPanela.add(btnPartidaNormala);
+        modoPanela.add(btnMugagabe);
+        p.add(modoPanela);
+        
+        modoSeleccionadoLabel = new JLabel("AUKERATU JOKATZEKO MODOA");
+        modoSeleccionadoLabel.setForeground(Color.YELLOW);
+        modoSeleccionadoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        p.add(modoSeleccionadoLabel);
+        p.add(Box.createVerticalStrut(20));
+
         JLabel aukeratuText = new JLabel("AUKERATU ZURE ONTZIA JOLASTEKO:");
         aukeratuText.setForeground(Color.WHITE);
         aukeratuText.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(aukeratuText);
         p.add(Box.createVerticalStrut(20));
 
-        // BOTOI PANELA
         JPanel botoiPanela = new JPanel();
         botoiPanela.setOpaque(false);
         botoiPanela.setLayout(new FlowLayout());
@@ -119,6 +147,9 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         btnBerdea = sortuBotoia("Berdea", Color.GREEN);
         btnGorria = sortuBotoia("Gorria", Color.RED);
         btnUrdina = sortuBotoia("Urdina", Color.BLUE);
+        btnBerdea.setEnabled(false);
+        btnGorria.setEnabled(false);
+        btnUrdina.setEnabled(false);
 
         botoiPanela.add(btnBerdea);
         botoiPanela.add(btnGorria);
@@ -129,7 +160,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         return p;
     }
 
-    // Botoiak sortzeko laguntzailea
     private JButton sortuBotoia(String izena, Color c) {
         JButton b = new JButton(izena);
         b.setFocusable(false);
@@ -145,7 +175,19 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         
-        if (cmd.startsWith("JOLASTU_")) {
+        if (cmd.equals("NORMALA")) {
+            JokoKudeaketa.getJokoKudeaketa().setModoJuego(false);
+            modoSeleccionadoLabel.setText("Modua: Partida 1 (bizitza extra barik)");
+            btnBerdea.setEnabled(true);
+            btnGorria.setEnabled(true);
+            btnUrdina.setEnabled(true);
+        } else if (cmd.equals("MUGAGABE")) {
+            JokoKudeaketa.getJokoKudeaketa().setModoJuego(true);
+            modoSeleccionadoLabel.setText("Modua: Mugagabea (3 bizitza, bolada infinituak)");
+            btnBerdea.setEnabled(true);
+            btnGorria.setEnabled(true);
+            btnUrdina.setEnabled(true);
+        } else if (cmd.startsWith("JOLASTU_")) {
             String koloreaRaw = cmd.substring(8); 
             String kolorea = koloreaRaw.substring(0, 1) + koloreaRaw.substring(1).toLowerCase();
             
@@ -163,7 +205,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         }
     }
 
-    // TEKLATUAREN KONTROLA
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();

@@ -16,11 +16,16 @@ public class JokoKudeaketa extends Observable {
     private Set<String> teclasPresionadas = new HashSet<>();
     boolean tiroEginDa;
     private int tiroKopurua;
+    private boolean mugagabe = false;
 
     private JokoKudeaketa() {}
 
     public static JokoKudeaketa getJokoKudeaketa() {
         return nireKudeaketa;
+    }
+
+    public void setModoJuego(boolean mugagabe) {
+        this.mugagabe = mugagabe;
     }
 
     public void teklaSakatu(String tekla) {
@@ -42,14 +47,13 @@ public class JokoKudeaketa extends Observable {
     }
 
     public void hasieratuJokoa(String pkol) {
-        // RESET GARRANTZITSUAK
         this.jokoaHasita = true;
         this.tickKontagailua = 0;
         this.teclasPresionadas.clear();
         this.tiroEginDa = false;
         this.tiroKopurua = 0;
         
-        MatrizeEredua.getMatrizea().matrizeaSortu(pkol);
+        MatrizeEredua.getMatrizea().matrizeaSortu(pkol, mugagabe);
         
         setChanged();
         notifyObservers("MTRX_SORTUTA");
@@ -104,7 +108,6 @@ public class JokoKudeaketa extends Observable {
         berrituBistakoDatuak();
     }
     public void egiaztatuAmaiera() {
-        // Ez begiratu ezer jokoa amaituta badago
         if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;
 
         Gelaxka[][] gelaxkak = MatrizeEredua.getMatrizea().getGelaxkak();
@@ -117,7 +120,6 @@ public class JokoKudeaketa extends Observable {
                 EdukiaEgoera e = gelaxkak[x][y].getEdukia();
                 if (e instanceof EtsaiEgoera) {
                     etsaiakBadaude = true;
-                    // BALDINTZA: Etsaia beheko mugaraino iritsi bada, GALDU
                     if (y >= altuera - 2) {
                         amaituJokoa(false);
                         return;
@@ -126,17 +128,21 @@ public class JokoKudeaketa extends Observable {
             }
         }
 
-        // BALDINTZA: Etsai guztiak hil badira, IRABAZI
         if (!etsaiakBadaude) {
-            amaituJokoa(true);
+            if (MatrizeEredua.getMatrizea().isMugagabe()) {
+                MatrizeEredua.getMatrizea().hurrengoOlata();
+            } else {
+                amaituJokoa(true);
+            }
         }
     }
     public void berrituBistakoDatuak() {
         String munizioa = MatrizeEredua.getMatrizea().getUnekoMunizioaTestua();
-        Bista.JokoPanela.getJokoPanela().eguneratuInfo(this.tiroKopurua, munizioa);
+        int puntuazioa = MatrizeEredua.getMatrizea().getPuntuazioa();
+        int bizitzak = MatrizeEredua.getMatrizea().getBizitzak();
+        Bista.JokoPanela.getJokoPanela().eguneratuInfo(this.tiroKopurua, munizioa, puntuazioa, bizitzak);
     }
 
-    // Tiro bat egitean deituko dugu kontagailua igotzeko
     public void tiroaKontatuEtaBerritu() {
         this.tiroKopurua++;
         berrituBistakoDatuak();
@@ -154,5 +160,7 @@ public class JokoKudeaketa extends Observable {
 
     public boolean isJokoaHasita() { return jokoaHasita; }
 
-
+    public void bistaEguneratu() {
+        berrituBistakoDatuak();
+    }
 }

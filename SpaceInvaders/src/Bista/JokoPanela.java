@@ -11,6 +11,8 @@ public class JokoPanela extends JPanel {
     
     private JLabel tiroKontagailua;
     private JLabel munizioKontagailua;
+    private JLabel puntuazioLabel;
+    private JLabel bizitzakLabel;
     private JPanel matrizePanela;
 
     private JokoPanela() {
@@ -29,14 +31,24 @@ public class JokoPanela extends JPanel {
         munizioKontagailua.setForeground(Color.CYAN);
         munizioKontagailua.setFont(new Font("Monospaced", Font.BOLD, 16));
 
+        puntuazioLabel = new JLabel(" | Puntuazioa: 0");
+        puntuazioLabel.setForeground(Color.YELLOW);
+        puntuazioLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
+
+        bizitzakLabel = new JLabel(" | Bizitzak: 3");
+        bizitzakLabel.setForeground(Color.RED);
+        bizitzakLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
+
         infoPanela.add(tiroKontagailua);
         infoPanela.add(munizioKontagailua);
+        infoPanela.add(puntuazioLabel);
+        infoPanela.add(bizitzakLabel);
         this.add(infoPanela, BorderLayout.NORTH);
 
         matrizePanela = new JPanel() {
             private Image bgImage;
             {
-                URL imgURL = getClass().getResource("1.jpg");
+                URL imgURL = getClass().getResource("1.png");
                 if (imgURL != null) {
                     bgImage = new ImageIcon(imgURL).getImage();
                 }
@@ -81,10 +93,12 @@ public class JokoPanela extends JPanel {
         this.repaint();
     }
 
-    public void eguneratuInfo(int tiroKopurua, String munizioa) {
+    public void eguneratuInfo(int tiroKopurua, String munizioa, int puntuazioa, int bizitzak) {
         SwingUtilities.invokeLater(() -> {
             this.tiroKontagailua.setText("Tiroak: " + tiroKopurua);
             this.munizioKontagailua.setText(" | Munizioa: " + munizioa);
+            this.puntuazioLabel.setText(" | Puntuazioa: " + puntuazioa);
+            this.bizitzakLabel.setText(" | Bizitzak: " + bizitzak);
         });
     }
 

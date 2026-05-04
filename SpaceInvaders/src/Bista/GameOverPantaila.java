@@ -20,7 +20,6 @@ public class GameOverPantaila extends JPanel {
     public GameOverPantaila() {
         this.setLayout(new BorderLayout());
         
-        
         mezuaTxartela = new JLabel("", SwingConstants.CENTER);
         mezuaTxartela.setFont(new Font("Arial", Font.BOLD, 36));
         this.add(mezuaTxartela, BorderLayout.CENTER);
@@ -41,10 +40,8 @@ public class GameOverPantaila extends JPanel {
         this.add(botoiPanela, BorderLayout.SOUTH);
     }
 
-
     private void cargarImagenFondo(String archivo) {
         try {
-   
             URL imageURL = getClass().getResource(archivo);
             if (imageURL != null) {
                 irudiFondoa = ImageIO.read(imageURL);
@@ -56,15 +53,15 @@ public class GameOverPantaila extends JPanel {
         }
     }
 
-    public void setMezua(boolean irabazi) {
+    public void setMezua(boolean irabazi, int puntuazioa) {
         this.irabaziDua = irabazi;
         
         if (irabazi) {
             cargarImagenFondo("Winner.png"); 
-            mezuaTxartela.setText(""); 
+            mezuaTxartela.setText("WINNER! Puntuazioa: " + puntuazioa); 
         } else {
             cargarImagenFondo("GameOver.png");
-            mezuaTxartela.setText(""); 
+            mezuaTxartela.setText("GAME OVER - Puntuazioa: " + puntuazioa); 
         }
         
         this.revalidate();
