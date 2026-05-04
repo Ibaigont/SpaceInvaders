@@ -62,7 +62,7 @@ public class JokoKudeaketa extends Observable {
             jokoBegizta.cancel();
             jokoBegizta.purge();
         }
-        
+    	Soinua.getSoinua().jokoMusika();
         jokoBegizta = new Timer("JokoBegizta", true);
        
         jokoBegizta.scheduleAtFixedRate(new TimerTask() {
@@ -154,6 +154,13 @@ public class JokoKudeaketa extends Observable {
             jokoBegizta.cancel();
             jokoBegizta.purge();
         }
+		Soinua.getSoinua().gelditu();
+            if (irabazi) {
+				Soinua.getSoinua().erreproduzituBehin("freesound_community-victory-85561.wav");
+			} else {
+				Soinua.getSoinua().erreproduzituBehin("cartoon-music-soundtrack-game-over-retro-arcade-504455.wav");
+			}
+		
         setChanged();
         notifyObservers(irabazi ? "IRABAZI" : "GALDU");
     }
