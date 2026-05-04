@@ -9,19 +9,17 @@ import java.util.Observer;
 
 @SuppressWarnings("deprecation")
 public class LeihoNagusia extends JFrame implements Observer, ActionListener, KeyListener {
-
     private JPanel kartaPanela;
     private CardLayout kartaDiseinua;
     private JokoPanela jokoPanelaAtala;
+    private KargatzenPantaila kargatzenPantailaAtala; 
     
-    // Botoi berriak hautaketarako
     private JButton btnBerdea;
     private JButton btnGorria;
     private JButton btnUrdina;
     
     private GameOverPantaila irabaziPantaila;
     private GameOverPantaila galduPantaila;
-
 
     public LeihoNagusia() {
         this.setTitle("Space Invaders - Aukeratu zure Ontzia");
@@ -31,12 +29,15 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         
         kartaDiseinua = new CardLayout();
         kartaPanela = new JPanel(kartaDiseinua);
-
+        
         jokoPanelaAtala = JokoPanela.getJokoPanela();
+        kargatzenPantailaAtala = new KargatzenPantaila();
         jokoPanelaAtala.setFocusable(false);
         
-        // Hasierako panela kargatu
+        jokoPanelaAtala.preparatuMatrizea(100, 60);
+        
         kartaPanela.add(hasieraPanelaSortu(), "HASIERA");
+        kartaPanela.add(kargatzenPantailaAtala, "KARGATZEN");
         kartaPanela.add(jokoPanelaAtala, "JOKOA");
         
         irabaziPantaila = new GameOverPantaila();
@@ -47,7 +48,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         kartaPanela.add(galduPantaila, "GAMEOVER");
         
         kartaPanela.setFocusable(false);
-
         this.add(kartaPanela);
         this.addKeyListener(this);
         
@@ -56,22 +56,28 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
 
     @Override
     public void update(Observable o, Object arg) {
-        SwingUtilities.invokeLater(() -> {
-            if ("MTRX_SORTUTA".equals(arg)) {
-                jokoPanelaAtala.preparatuMatrizea(100, 60);
-                Eredua.MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
-                kartaDiseinua.show(kartaPanela, "JOKOA");
-                LeihoNagusia.this.requestFocusInWindow();
-
-            } else if ("IRABAZI".equals(arg)) {
+        if ("MTRX_SORTUTA".equals(arg)) {
+           
+            Timer pausaEstetikoa = new Timer(2000, e -> {
+                SwingUtilities.invokeLater(() -> {
+                    Eredua.MatrizeEredua.getMatrizea().gelaxkaGuztiakNotifikatu();
+                    kartaDiseinua.show(kartaPanela, "JOKOA");
+                    LeihoNagusia.this.requestFocusInWindow();
+                });
+            });
+            pausaEstetikoa.setRepeats(false);
+            pausaEstetikoa.start();
+        } else if ("IRABAZI".equals(arg)) {
+            SwingUtilities.invokeLater(() -> {
                 irabaziPantaila.setMezua(true);
                 kartaDiseinua.show(kartaPanela, "IRABAZI");
-
-            } else if ("GALDU".equals(arg)) {
+            });
+        } else if ("GALDU".equals(arg)) {
+            SwingUtilities.invokeLater(() -> {
                 galduPantaila.setMezua(false);
                 kartaDiseinua.show(kartaPanela, "GAMEOVER");
-            }
-        });
+            });
+        }
     }
 
     private JPanel hasieraPanelaSortu() {
@@ -80,7 +86,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         p.setFocusable(false);
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
-        // LOGOA EDO IRUDIA
+        // LOGOA EDO IRUDIA (Recuperado)
         java.net.URL imgURL = getClass().getResource("space_invaders.jpg");
         if (imgURL != null) {
             ImageIcon icon = new ImageIcon(imgURL);
@@ -97,7 +103,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
             p.add(Box.createVerticalGlue());
             p.add(label);
         }
-
         p.add(Box.createVerticalStrut(30));
 
         // TESTUA
@@ -107,7 +112,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         p.add(aukeratuText);
         p.add(Box.createVerticalStrut(20));
 
-        // BOTOI PANELA (Strategy hautaketa)
+        // BOTOI PANELA
         JPanel botoiPanela = new JPanel();
         botoiPanela.setOpaque(false);
         botoiPanela.setLayout(new FlowLayout());
@@ -119,7 +124,6 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         botoiPanela.add(btnBerdea);
         botoiPanela.add(btnGorria);
         botoiPanela.add(btnUrdina);
-
         p.add(botoiPanela);
         p.add(Box.createVerticalGlue());
         
@@ -142,13 +146,15 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         
-        // "JOLASTU_BERDEA", "JOLASTU_GORRIA", etab.
         if (cmd.startsWith("JOLASTU_")) {
-            String koloreaRaw = cmd.substring(8); // "BERDEA", "GORRIA"...
-            // Formatu egokia eman: "Berdea"
+            String koloreaRaw = cmd.substring(8); 
             String kolorea = koloreaRaw.substring(0, 1) + koloreaRaw.substring(1).toLowerCase();
-            // Jokoa hasieratu aukeratutako kolorearekin
-            JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(kolorea);
+            
+            kartaDiseinua.show(kartaPanela, "KARGATZEN");
+            
+            Timer t = new Timer(100, evt -> JokoKudeaketa.getJokoKudeaketa().hasieratuJokoa(kolorea));
+            t.setRepeats(false);
+            t.start();
         } 
         else if (cmd.equals("BERRIRO")) {
             kartaDiseinua.show(kartaPanela, "HASIERA");
@@ -178,7 +184,7 @@ public class LeihoNagusia extends JFrame implements Observer, ActionListener, Ke
         else if (code == KeyEvent.VK_UP) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("GORA");
         else if (code == KeyEvent.VK_DOWN) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("BEHERA");
         else if (code == KeyEvent.VK_SPACE) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA");
-         else if (code == KeyEvent.VK_M) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA_ALDATU");
+        else if (code == KeyEvent.VK_M) JokoKudeaketa.getJokoKudeaketa().teklaAskatu("TIROA_ALDATU");
     }
 
     @Override public void keyTyped(KeyEvent e) {}

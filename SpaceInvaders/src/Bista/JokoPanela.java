@@ -2,19 +2,18 @@ package Bista;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class JokoPanela extends JPanel {
     
     private static JokoPanela panel = null;
     private GelaxkaBista[][] bistaMatrizea = null;
     
-
     private JLabel tiroKontagailua;
     private JLabel munizioKontagailua;
     private JPanel matrizePanela;
 
     private JokoPanela() {
-
         this.setLayout(new BorderLayout());
         this.setBackground(Color.BLACK);
 
@@ -26,17 +25,32 @@ public class JokoPanela extends JPanel {
         tiroKontagailua.setForeground(Color.WHITE);
         tiroKontagailua.setFont(new Font("Monospaced", Font.BOLD, 16));
 
-        munizioKontagailua = new JLabel(" | Munizioa: ∞");
+        munizioKontagailua = new JLabel(" | Munizioa: ");
         munizioKontagailua.setForeground(Color.CYAN);
         munizioKontagailua.setFont(new Font("Monospaced", Font.BOLD, 16));
 
         infoPanela.add(tiroKontagailua);
         infoPanela.add(munizioKontagailua);
-
         this.add(infoPanela, BorderLayout.NORTH);
 
-        matrizePanela = new JPanel();
-        matrizePanela.setBackground(Color.BLACK);
+        matrizePanela = new JPanel() {
+            private Image bgImage;
+            {
+                URL imgURL = getClass().getResource("1.jpg");
+                if (imgURL != null) {
+                    bgImage = new ImageIcon(imgURL).getImage();
+                }
+            }
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgImage != null) {
+                    g.drawImage(bgImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            }
+        };
+        matrizePanela.setOpaque(false);
         this.add(matrizePanela, BorderLayout.CENTER);
     }
 
@@ -47,12 +61,10 @@ public class JokoPanela extends JPanel {
         return panel;
     }
 
-
     public void preparatuMatrizea(int zabalera, int altuera) {
         if (this.bistaMatrizea != null) {
             return;
         }
-
         this.bistaMatrizea = new GelaxkaBista[zabalera][altuera];
         matrizePanela.setLayout(new GridLayout(altuera, zabalera));
 
@@ -69,7 +81,6 @@ public class JokoPanela extends JPanel {
         this.repaint();
     }
 
-   
     public void eguneratuInfo(int tiroKopurua, String munizioa) {
         SwingUtilities.invokeLater(() -> {
             this.tiroKontagailua.setText("Tiroak: " + tiroKopurua);
@@ -81,17 +92,14 @@ public class JokoPanela extends JPanel {
         return bistaMatrizea;
     }
 
-
     public void hasieratu(GelaxkaBista[][] pBistaMatrizea, int zabalera, int altuera) {
         matrizePanela.removeAll();
         matrizePanela.setLayout(new GridLayout(altuera, zabalera));
-
         for (int y = 0; y < altuera; y++) {
             for (int x = 0; x < zabalera; x++) {
                 matrizePanela.add(pBistaMatrizea[x][y]);
             }
         }
-
         this.revalidate();
         this.repaint();
     }

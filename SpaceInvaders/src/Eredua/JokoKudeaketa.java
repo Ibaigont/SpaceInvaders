@@ -48,24 +48,25 @@ public class JokoKudeaketa extends Observable {
         this.teclasPresionadas.clear();
         this.tiroEginDa = false;
         this.tiroKopurua = 0;
-
+        
         MatrizeEredua.getMatrizea().matrizeaSortu(pkol);
-
+        
         setChanged();
         notifyObservers("MTRX_SORTUTA");
-
+        
         if (jokoBegizta != null) {
             jokoBegizta.cancel();
             jokoBegizta.purge();
         }
         
         jokoBegizta = new Timer("JokoBegizta", true);
+       
         jokoBegizta.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 jokoZikloa();
             }
-        }, 0, 50);
+        }, 1500, 50); 
     }
 
     private void jokoZikloa() {
