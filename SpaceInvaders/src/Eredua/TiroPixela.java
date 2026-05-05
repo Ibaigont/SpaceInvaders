@@ -19,6 +19,10 @@ public class TiroPixela implements TiroElementua {
     public void mugituGora() {
         this.y--;
     }
+    
+    public void mugituBehera() {
+        this.y++;
+    }
 
     @Override
     public List<TiroPixela> getPixelak() {

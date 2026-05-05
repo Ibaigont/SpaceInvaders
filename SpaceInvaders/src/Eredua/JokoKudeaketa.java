@@ -100,12 +100,11 @@ public class JokoKudeaketa extends Observable {
         MatrizeEredua.getMatrizea().jokoZikloaEguneratu();
 
         tickKontagailua++;
-        if (tickKontagailua >= 4) {
+        if (tickKontagailua >= 6) {   
             MatrizeEredua.getMatrizea().etsaiakMugitu();
             egiaztatuAmaiera();
             tickKontagailua = 0;
         }
-        berrituBistakoDatuak();
     }
     public void egiaztatuAmaiera() {
         if (MatrizeEredua.getMatrizea().isJokoaAmaitua()) return;

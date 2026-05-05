@@ -55,15 +55,19 @@ public class GameOverPantaila extends JPanel {
 
     public void setMezua(boolean irabazi, int puntuazioa) {
         this.irabaziDua = irabazi;
-        
+
         if (irabazi) {
-            cargarImagenFondo("Winner.png"); 
-            mezuaTxartela.setText("WINNER! Puntuazioa: " + puntuazioa); 
+            cargarImagenFondo("Winner.png");
+            mezuaTxartela.setText("WINNER! Puntuazioa: " + puntuazioa);
         } else {
             cargarImagenFondo("GameOver.png");
-            mezuaTxartela.setText("GAME OVER - Puntuazioa: " + puntuazioa); 
+            mezuaTxartela.setText("GAME OVER - Puntuazioa: " + puntuazioa);
         }
-        
+
+        mezuaTxartela.setForeground(Color.WHITE);
+        mezuaTxartela.setVerticalAlignment(SwingConstants.TOP);
+        mezuaTxartela.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+
         this.revalidate();
         this.repaint();
     }

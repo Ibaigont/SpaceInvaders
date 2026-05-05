@@ -3,6 +3,7 @@ package Eredua;
 public class EtsaiFactory {
     	
     private static EtsaiFactory nireEtsaiFactory;
+    private EtsaiPortaera portaera;
 
     private EtsaiFactory() {}
 
@@ -14,8 +15,15 @@ public class EtsaiFactory {
     }
 
     public EtsaiElementua createEtsaia(int mota, int x, int y) {
-        EtsaiNodoa etsaia = new EtsaiNodoa();
         
+        switch (mota) {
+            case 0: portaera = new PortaeraNormala(); break;  
+            case 1: portaera = new PortaeraAzkar(); break;    
+            case 2: portaera = new PortaeraTiratzaile(); break;
+            case 3: portaera = new PortaeraNormala(); break;   
+            default: portaera = new PortaeraNormala(); break;
+        }
+        EtsaiNodoa etsaia = new EtsaiNodoa(portaera); 
         if (mota == 0) { // karratua
             etsaia.addElementu(new EtsaiHostoa(x, y));
             etsaia.addElementu(new EtsaiHostoa(x + 1, y));
